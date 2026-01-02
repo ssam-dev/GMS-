@@ -5,7 +5,7 @@ const USE_MOCK_GOOGLE = true;
 
 // OPTION 2: Production Mode (Your Google Client ID from Google Cloud Console)
 // Set USE_MOCK_GOOGLE = false and add your actual Client ID here
-export const GOOGLE_CLIENT_ID = ""; // Your Google Client ID will go here
+export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || ""; // Your Google Client ID will go here
 
 // Check if Google Auth is enabled and configured
 export const isGoogleAuthEnabled = () => {
