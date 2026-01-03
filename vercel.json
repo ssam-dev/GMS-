@@ -1,7 +1,7 @@
 {
-  "buildCommand": "cd frontend && npm install && npm run build",
+  "buildCommand": "npm run build",
   "outputDirectory": "frontend/dist",
-  "installCommand": "npm install --prefix frontend",
+  "installCommand": "npm install",
   "framework": "vite",
   "rewrites": [
     {
@@ -11,5 +11,6 @@
   ],
   "env": {
     "VITE_API_BASE_URL": "https://backend-u1lb.onrender.com/api"
-  }
+  },
+  "buildIgnore": "git log --oneline -1 | grep -q 'skip build' && exit 0 || exit 1"
 }
