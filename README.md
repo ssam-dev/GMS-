@@ -49,6 +49,12 @@ GMS/
 │   ├── GOOGLE_SETUP_GUIDE.md    # Detailed setup instructions
 │   └── API.md               # API endpoint documentation
 │
+├── BACKEND_ENV_VARIABLES.md     # Backend environment variables guide
+├── MONGODB_CONNECTION_STRING.md  # MongoDB connection string guide
+├── DEPLOY_GUIDE.md              # Complete deployment guide
+├── QUICK_DEPLOY.md              # Quick deployment reference
+└── SPLIT_REPOSITORIES.md        # Repository separation guide
+│
 ├── .env.example             # Example environment variables
 ├── .gitignore              # Git ignore rules
 └── README.md               # This file
@@ -200,6 +206,14 @@ For issues and questions:
 1. Check documentation in `docs/` folder
 2. Review console for error messages
 3. Check backend logs for API errors
+
+## 📚 Deployment Documentation
+
+- **[DEPLOY_GUIDE.md](DEPLOY_GUIDE.md)** - Complete step-by-step deployment guide
+- **[QUICK_DEPLOY.md](QUICK_DEPLOY.md)** - Quick 5-minute deployment reference
+- **[BACKEND_ENV_VARIABLES.md](BACKEND_ENV_VARIABLES.md)** - Backend environment variables reference
+- **[MONGODB_CONNECTION_STRING.md](MONGODB_CONNECTION_STRING.md)** - MongoDB connection string guide
+- **[SPLIT_REPOSITORIES.md](SPLIT_REPOSITORIES.md)** - Guide for separating backend/frontend repos
 
 ## 📄 License
 

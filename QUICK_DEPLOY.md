@@ -41,6 +41,7 @@ git push -u origin main
    MONGODB_URI=your_mongodb_connection_string
    CORS_ORIGIN=https://your-frontend.vercel.app (update after frontend deploy)
    ```
+   📚 See [BACKEND_ENV_VARIABLES.md](BACKEND_ENV_VARIABLES.md) for complete guide
 5. Deploy → Copy backend URL
 
 ### 3. Deploy Frontend (Vercel)
@@ -80,6 +81,8 @@ git push -u origin main
 4. Network Access → Allow from anywhere (0.0.0.0/0)
 5. Database → Connect → Copy connection string
 6. Replace `<password>` and `<dbname>`
+
+📚 **Connection String Guide**: See [MONGODB_CONNECTION_STRING.md](MONGODB_CONNECTION_STRING.md) for format details and encoding.
 
 ---
 

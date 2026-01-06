@@ -84,6 +84,8 @@ git push -u origin main
 mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/gms?retryWrites=true&w=majority
 ```
 
+📚 **Detailed Guide**: See [MONGODB_CONNECTION_STRING.md](MONGODB_CONNECTION_STRING.md) for connection string format, encoding, and troubleshooting.
+
 ---
 
 ## Step 3: Deploy Backend to Render
@@ -123,6 +125,9 @@ API_URL=https://gms-backend.onrender.com
 - Replace `MONGODB_URI` with your actual connection string
 - Replace `CORS_ORIGIN` with your frontend URL (we'll get this after deploying frontend)
 - `API_URL` will be your Render service URL
+
+📚 **Detailed Guide**: See [BACKEND_ENV_VARIABLES.md](BACKEND_ENV_VARIABLES.md) for complete environment variables reference.  
+🔗 **MongoDB Setup**: See [MONGODB_CONNECTION_STRING.md](MONGODB_CONNECTION_STRING.md) for connection string format details.
 
 ### 3.4 Deploy
 
