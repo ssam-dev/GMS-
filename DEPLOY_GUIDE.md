@@ -293,6 +293,8 @@ CORS_ORIGIN=https://your-frontend.vercel.app
 API_URL=https://your-backend.onrender.com
 ```
 
+📚 **Complete Reference**: See [BACKEND_ENV_VARIABLES.md](BACKEND_ENV_VARIABLES.md) for detailed explanations, examples, platform-specific instructions, and troubleshooting.
+
 ### Frontend (Vercel)
 ```env
 VITE_API_BASE_URL=https://your-backend.onrender.com/api
