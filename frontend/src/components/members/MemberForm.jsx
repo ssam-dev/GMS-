@@ -21,24 +21,43 @@ export default function MemberForm({ member, onSubmit, onCancel }) {
     }
   };
 
-  const [formData, setFormData] = useState(member ? {
-    ...member,
-    date_of_birth: formatDateForInput(member.date_of_birth),
-    membership_start_date: formatDateForInput(member.membership_start_date),
-    membership_end_date: formatDateForInput(member.membership_end_date)
-  } : {
-    first_name: "",
-    last_name: "",
-    email: "",
-    phone: "",
-    date_of_birth: "",
-    membership_type: "basic",
-    membership_start_date: "",
-    membership_end_date: "",
-    status: "active",
-    emergency_contact_name: "",
-    emergency_contact_phone: "",
-    medical_conditions: "",
+  const [formData, setFormData] = useState(() => {
+    // Helper to convert null/undefined to empty string
+    const safeString = (value) => (value == null ? "" : String(value));
+    
+    if (member) {
+      return {
+        first_name: safeString(member.first_name),
+        last_name: safeString(member.last_name),
+        email: safeString(member.email),
+        phone: safeString(member.phone),
+        date_of_birth: formatDateForInput(member.date_of_birth),
+        membership_type: safeString(member.membership_type) || "basic",
+        membership_start_date: formatDateForInput(member.membership_start_date),
+        membership_end_date: formatDateForInput(member.membership_end_date),
+        status: safeString(member.status) || "active",
+        emergency_contact_name: safeString(member.emergency_contact_name),
+        emergency_contact_phone: safeString(member.emergency_contact_phone),
+        medical_conditions: safeString(member.medical_conditions),
+        profile_photo: safeString(member.profile_photo)
+      };
+    }
+    
+    return {
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone: "",
+      date_of_birth: "",
+      membership_type: "basic",
+      membership_start_date: "",
+      membership_end_date: "",
+      status: "active",
+      emergency_contact_name: "",
+      emergency_contact_phone: "",
+      medical_conditions: "",
+      profile_photo: ""
+    };
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});

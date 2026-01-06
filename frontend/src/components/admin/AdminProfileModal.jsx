@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { User } from "@/entities/User";
-import { X, User as UserIcon, Mail, Phone, MapPin, Upload, Camera, Link as LinkIcon, Trash2, Save } from "lucide-react";
+import { X, User as UserIcon, Mail, Phone, MapPin, Upload, Camera, Link as LinkIcon, Trash2, Save, Award } from "lucide-react";
 import { motion } from "framer-motion";
+import MultiFileUpload from "@/components/ui/MultiFileUpload";
+import { getApiServerUrl } from "@/config/api";
 
 export default function AdminProfileModal({ user, onClose, onUpdate }) {
   const [formData, setFormData] = useState({
@@ -18,7 +20,8 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
     gym_name: user?.gym_name || "",
     gym_address: user?.gym_address || "",
     gym_phone: user?.gym_phone || "",
-    profile_picture: user?.profile_picture || ""
+    profile_picture: user?.profile_picture || "",
+    certificates: user?.certificates || []
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -28,6 +31,10 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
   const [imageLoadError, setImageLoadError] = useState(false);
   const [showUrlInput, setShowUrlInput] = useState(false);
   const [urlInput, setUrlInput] = useState("");
+  const [certificateFiles, setCertificateFiles] = useState(() => 
+    Array.isArray(user?.certificates) ? user.certificates : []
+  );
+  const [uploadingCertificates, setUploadingCertificates] = useState(false);
   
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
@@ -111,6 +118,59 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
       .toUpperCase();
   };
 
+  const uploadProfilePhoto = async (file) => {
+    if (!file) return null;
+    
+    try {
+      const formDataUpload = new FormData();
+      formDataUpload.append('file', file);
+      
+      const response = await fetch(`${getApiServerUrl()}/api/upload/profile-photo`, {
+        method: 'POST',
+        body: formDataUpload
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to upload profile photo');
+      }
+      
+      const data = await response.json();
+      return data.url; // Returns the file URL
+    } catch (error) {
+      console.error('Profile photo upload error:', error);
+      throw error;
+    }
+  };
+
+  const uploadCertificates = async (files) => {
+    if (!files || files.length === 0) return [];
+    
+    try {
+      setUploadingCertificates(true);
+      const formDataUpload = new FormData();
+      files.forEach(file => {
+        formDataUpload.append('files', file);
+      });
+      
+      const response = await fetch(`${getApiServerUrl()}/api/upload/certificates`, {
+        method: 'POST',
+        body: formDataUpload
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to upload certificates');
+      }
+      
+      const data = await response.json();
+      return data.files || []; // Returns array of file objects with URLs
+    } catch (error) {
+      console.error('Certificates upload error:', error);
+      throw error;
+    } finally {
+      setUploadingCertificates(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -118,11 +178,42 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
 
     setIsLoading(true);
     try {
-      // If there's an image file, you might want to upload it to a server first
-      // For now, we'll use the preview or URL
+      let profilePhotoUrl = formData.profile_picture;
+      
+      // Upload profile photo if a new file was selected
+      if (imageFile) {
+        try {
+          profilePhotoUrl = await uploadProfilePhoto(imageFile);
+        } catch (uploadError) {
+          setErrors({ submit: "Failed to upload profile photo. Please try again." });
+          setIsLoading(false);
+          return;
+        }
+      }
+
+      // Upload certificates if new files were selected
+      let certificateUrls = Array.isArray(certificateFiles)
+        ? certificateFiles.filter(file => typeof file === 'string')
+        : [];
+      const newFiles = Array.isArray(certificateFiles)
+        ? certificateFiles.filter(file => typeof file !== 'string')
+        : [];
+
+      if (newFiles.length > 0) {
+        try {
+          const uploadedCerts = await uploadCertificates(newFiles);
+          certificateUrls = [...certificateUrls, ...uploadedCerts.map(cert => cert.url)];
+        } catch (uploadError) {
+          setErrors({ submit: "Failed to upload certificates. Please try again." });
+          setIsLoading(false);
+          return;
+        }
+      }
+      
       const submitData = {
         ...formData,
-        profile_picture: imageFile ? profileImagePreview : formData.profile_picture
+        profile_picture: profilePhotoUrl,
+        certificates: certificateUrls
       };
       
       const updatedUser = await User.updateMyUserData(submitData);
@@ -377,6 +468,34 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
                   <p className="text-xs text-slate-500 mt-1 text-right">
                     {formData.bio.length}/500 characters
                   </p>
+                </div>
+              </div>
+
+              {/* Certificates Section */}
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                  <Award className="w-5 h-5" />
+                  Certificates & Qualifications
+                </h3>
+                <div className="space-y-4">
+                  <p className="text-sm text-slate-600">
+                    Upload your professional certificates, qualifications, or licenses (PDF or images)
+                  </p>
+                  <MultiFileUpload
+                    label="Upload Certificates"
+                    accept=".pdf,.jpg,.jpeg,.png,.webp"
+                    maxFiles={10}
+                    maxSize={5 * 1024 * 1024}
+                    onFilesSelect={setCertificateFiles}
+                    currentFiles={certificateFiles}
+                    enableCamera={false}
+                  />
+                  {uploadingCertificates && (
+                    <div className="text-sm text-blue-600 flex items-center gap-2">
+                      <div className="animate-spin w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full"></div>
+                      Uploading certificates...
+                    </div>
+                  )}
                 </div>
               </div>
 

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Search, Filter, Users, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
 
 import TrainerCard from "../components/trainers/TrainerCard";
 import TrainerForm from "../components/trainers/TrainerForm";
@@ -142,10 +143,12 @@ export default function Trainers() {
         console.log('🟡 Updating trainer with data:', trainerData);
         const updateResp = await Trainer.update(editingTrainer._id || editingTrainer.id, trainerData);
         console.log('🟡 Update response:', updateResp);
+        toast.success("Trainer updated successfully!");
       } else {
         console.log('🟡 Creating trainer with data:', trainerData);
         const createResp = await Trainer.create(trainerData);
         console.log('🟡 Create response:', createResp);
+        toast.success("Trainer created successfully!");
       }
       setShowForm(false);
       setEditingTrainer(null);
@@ -156,6 +159,10 @@ export default function Trainers() {
       loadTrainers();
     } catch (error) {
       console.error("Error saving trainer:", error);
+      const errorMessage = error.message || "Failed to save trainer. Please try again.";
+      toast.error(errorMessage, {
+        duration: 5000,
+      });
     }
   };
 
@@ -172,9 +179,14 @@ export default function Trainers() {
   const handleDelete = async (trainerId) => {
     try {
       await Trainer.delete(trainerId);
+      toast.success("Trainer deleted successfully!");
       loadTrainers();
     } catch (error) {
       console.error("Error deleting trainer:", error);
+      const errorMessage = error.message || "Failed to delete trainer. Please try again.";
+      toast.error(errorMessage, {
+        duration: 5000,
+      });
     }
   };
 

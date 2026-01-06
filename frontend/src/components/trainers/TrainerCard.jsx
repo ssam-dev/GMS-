@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getFileUrl } from "@/config/api";
 import { 
   MoreHorizontal, 
   Edit, 
@@ -94,7 +95,7 @@ export default function TrainerCard({ trainer, onEdit, onDelete, onViewDetails }
               <div className="relative">
                 {profilePhoto ? (
                   <img
-                    src={profilePhoto}
+                    src={getFileUrl(profilePhoto)}
                     alt={`${firstName} ${lastName}`}
                     className="w-14 h-14 rounded-full object-cover border-2 border-slate-200"
                   />

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getFileUrl, getApiBaseUrl } from "@/config/api";
 import { 
   X, 
   Edit, 
@@ -57,10 +58,7 @@ export default function EquipmentDetails({ equipment, onEdit, onDelete, onRefres
 
   // Construct proper image URL
   const getImageUrl = () => {
-    if (!equipment.image_path) return null;
-    if (equipment.image_path.startsWith('http')) return equipment.image_path;
-    const baseUrl = 'http://localhost:5000';
-    return `${baseUrl}${equipment.image_path}`;
+    return getFileUrl(equipment.image_path);
   };
 
   const imageUrl = getImageUrl();
@@ -78,7 +76,7 @@ export default function EquipmentDetails({ equipment, onEdit, onDelete, onRefres
   // Handle removing the image
   const handleRemoveImage = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/equipment/${equipment.id}/remove-image`, {
+      const response = await fetch(`${getApiBaseUrl()}/equipment/${equipment.id}/remove-image`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

@@ -10,6 +10,7 @@ import { X, Plus } from "lucide-react";
 import { motion } from "framer-motion";
 import FileUpload from "@/components/ui/FileUpload";
 import MultiFileUpload from "@/components/ui/MultiFileUpload";
+import { getApiServerUrl } from "@/config/api";
 
 const commonSpecializations = [
   "Personal Training",
@@ -55,6 +56,9 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
   };
 
   const [formData, setFormData] = useState(() => {
+    // Helper to convert null/undefined to empty string
+    const safeString = (value) => (value == null ? "" : String(value));
+    
     if (trainer) {
       // Convert certifications string to array for editing
       const certArray = typeof trainer.certifications === 'string' && trainer.certifications 
@@ -67,10 +71,19 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
         : Array.isArray(trainer.specializations) ? trainer.specializations : [];
       
       return {
-        ...trainer,
+        first_name: safeString(trainer.first_name),
+        last_name: safeString(trainer.last_name),
+        email: safeString(trainer.email),
+        phone: safeString(trainer.phone),
         specializations: specArray,
         certifications: certArray,
-        hire_date: formatDateForInput(trainer.hire_date)
+        hire_date: formatDateForInput(trainer.hire_date),
+        hourly_rate: trainer.hourly_rate != null ? String(trainer.hourly_rate) : "",
+        bio: safeString(trainer.bio),
+        status: safeString(trainer.status) || "active",
+        availability: safeString(trainer.availability) || "Full Day",
+        profile_photo: safeString(trainer.profile_photo),
+        specialization: safeString(trainer.specialization)
       };
     }
     
@@ -85,12 +98,19 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
       hourly_rate: "",
       bio: "",
       status: "active",
-      availability: "Full Day"
+      availability: "Full Day",
+      profile_photo: "",
+      specialization: ""
     };
   });
 
   const [profilePhotoFile, setProfilePhotoFile] = useState(null);
-  const [certificateFiles, setCertificateFiles] = useState(() => Array.isArray(trainer?.certificate_files) ? trainer.certificate_files : []);
+  const [certificateFiles, setCertificateFiles] = useState(() => {
+    // Initialize with existing certificate files from trainer
+    const existingFiles = Array.isArray(trainer?.certificate_files) ? trainer.certificate_files : [];
+    console.log('📋 Initializing certificate files from trainer:', existingFiles);
+    return existingFiles;
+  });
   const [uploading, setUploading] = useState(false);
   const [newSpecialization, setNewSpecialization] = useState("");
   const [newCertification, setNewCertification] = useState("");
@@ -103,7 +123,7 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
       const formDataUpload = new FormData();
       formDataUpload.append('file', file);
       
-      const response = await fetch('http://localhost:5000/api/upload/profile-photo', {
+      const response = await fetch(`${getApiServerUrl()}/api/upload/profile-photo`, {
         method: 'POST',
         body: formDataUpload
       });
@@ -113,6 +133,8 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
       }
       
       const data = await response.json();
+      console.log('Profile photo uploaded:', data);
+      console.log('Returned URL:', data.url);
       return data.url; // Returns the file URL
     } catch (error) {
       console.error('Profile photo upload error:', error);
@@ -129,7 +151,7 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
         formDataUpload.append('files', file);
       });
       
-      const response = await fetch('http://localhost:5000/api/upload/certificates', {
+      const response = await fetch(`${getApiServerUrl()}/api/upload/certificates`, {
         method: 'POST',
         body: formDataUpload
       });
@@ -178,16 +200,28 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
 
       // Upload certificates if selected; preserve existing URLs when editing
       let certificateUrls = Array.isArray(certificateFiles)
-        ? certificateFiles.filter(file => typeof file === 'string')
+        ? certificateFiles.filter(file => typeof file === 'string' && file.trim() !== '')
         : [];
       const newFiles = Array.isArray(certificateFiles)
-        ? certificateFiles.filter(file => typeof file !== 'string')
+        ? certificateFiles.filter(file => typeof file !== 'string' && file instanceof File)
         : [];
 
+      console.log('📋 Certificate files state:', certificateFiles);
+      console.log('📋 Existing certificate URLs:', certificateUrls);
+      console.log('📋 New files to upload:', newFiles.length);
+
       if (newFiles.length > 0) {
-        const uploadedCerts = await uploadCertificates(newFiles);
-        certificateUrls = [...certificateUrls, ...uploadedCerts.map(cert => cert.url)];
+        try {
+          const uploadedCerts = await uploadCertificates(newFiles);
+          console.log('✅ Uploaded certificates:', uploadedCerts);
+          certificateUrls = [...certificateUrls, ...uploadedCerts.map(cert => cert.url)];
+        } catch (uploadError) {
+          console.error('❌ Certificate upload error:', uploadError);
+          throw new Error(`Failed to upload certificates: ${uploadError.message}`);
+        }
       }
+
+      console.log('📋 Final certificate URLs to save:', certificateUrls);
 
       const submitData = {
         ...formData,
@@ -200,13 +234,20 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
         // Pick first specialization for backend single field
         specialization: Array.isArray(formData.specializations) && formData.specializations.length > 0
           ? formData.specializations[0]
-          : formData.specialization || '',
+          : (formData.specialization || (formData.specializations && formData.specializations[0]) || 'General Training'),
+        // Also send specializations array for backend
+        specializations: Array.isArray(formData.specializations) ? formData.specializations : [],
         hourly_rate: formData.hourly_rate ? parseFloat(formData.hourly_rate) : null
       };
       
+      console.log('📤 Submitting trainer data:', submitData);
+      console.log('📤 Certificate files being saved:', submitData.certificate_files);
+      console.log('📤 Profile photo URL being saved:', profilePhotoUrl);
+      
       onSubmit(submitData);
     } catch (error) {
-      console.error('Submit error:', error);
+      console.error('❌ Submit error:', error);
+      setErrors({ submit: error.message || 'Failed to save trainer. Please try again.' });
     } finally {
       setUploading(false);
     }
@@ -562,6 +603,13 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
                 />
               </div>
               </div>
+
+              {/* Error Message */}
+              {errors.submit && (
+                <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-red-600 text-sm">{errors.submit}</p>
+                </div>
+              )}
 
               {/* Form Actions */}
               <div className="flex justify-end gap-3 pt-4">

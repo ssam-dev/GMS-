@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getFileUrl } from "@/config/api";
 import { 
   X, 
   Edit, 
@@ -85,7 +86,7 @@ export default function MemberDetails({ member, onEdit, onDelete, onClose }) {
                   <div className="relative inline-block">
                     {member.profile_photo ? (
                       <img
-                        src={member.profile_photo}
+                        src={getFileUrl(member.profile_photo)}
                         alt={`${member.first_name} ${member.last_name}`}
                         className="w-32 h-32 rounded-full object-cover border-4 border-slate-200 mx-auto"
                       />

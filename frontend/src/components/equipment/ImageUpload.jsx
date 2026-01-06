@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { Upload, Camera, X, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { getFileUrl } from "@/config/api";
 
 export default function ImageUpload({ onImageSelect, currentImage }) {
   const [preview, setPreview] = useState(currentImage || null);
@@ -73,8 +74,7 @@ export default function ImageUpload({ onImageSelect, currentImage }) {
   const getImageUrl = () => {
     if (preview) return preview;
     if (currentImage && currentImage.startsWith('http')) return currentImage;
-    if (currentImage) return `http://localhost:5000${currentImage.startsWith('/') ? '' : '/'}${currentImage}`;
-    return null;
+    return getFileUrl(currentImage);
   };
 
   const imageUrl = getImageUrl();

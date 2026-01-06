@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Upload, X, Image as ImageIcon, Loader, Camera } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 

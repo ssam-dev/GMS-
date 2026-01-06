@@ -43,6 +43,10 @@ export default defineConfig({
         }
       }
     },
-    chunkSizeWarningLimit: 600
+    chunkSizeWarningLimit: 600,
+    minify: 'esbuild',
+    sourcemap: process.env.NODE_ENV !== 'production',
+    target: 'es2015',
+    cssCodeSplit: true
   }
 })

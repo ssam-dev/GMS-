@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getFileUrl } from "@/config/api";
 import { 
   X, 
   Edit, 
@@ -73,6 +74,10 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
   const profilePhoto = trainer.profile_photo ? String(trainer.profile_photo) : '';
   const bio = String(trainer.bio || '');
   const hireDate = trainer.hire_date;
+  
+  // Debug logging
+  console.log('TrainerDetails - Profile Photo:', profilePhoto);
+  console.log('TrainerDetails - Full URL:', profilePhoto ? getFileUrl(profilePhoto) : 'No photo');
 
   return (
     <motion.div
@@ -107,7 +112,7 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
                   <div className="relative inline-block">
                     {profilePhoto ? (
                       <img
-                        src={profilePhoto}
+                        src={getFileUrl(profilePhoto)}
                         alt={`${firstName} ${lastName}`}
                         className="w-32 h-32 rounded-full object-cover border-4 border-slate-200 mx-auto"
                       />
@@ -303,7 +308,7 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
                                   <Button
                                     size="sm"
                                     variant="ghost"
-                                    onClick={() => window.open(`http://localhost:5000${fileUrl}`, '_blank')}
+                                    onClick={() => window.open(getFileUrl(fileUrl), '_blank')}
                                     className="hover:bg-blue-100"
                                   >
                                     <Eye className="w-4 h-4" />
@@ -314,7 +319,7 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
                                   variant="ghost"
                                   onClick={() => {
                                     const link = document.createElement('a');
-                                    link.href = `http://localhost:5000${fileUrl}`;
+                                    link.href = getFileUrl(fileUrl);
                                     link.download = fileName;
                                     link.click();
                                   }}

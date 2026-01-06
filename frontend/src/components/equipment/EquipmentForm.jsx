@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { X } from "lucide-react";
 import { motion } from "framer-motion";
 import ImageUpload from "./ImageUpload";
+import { getFileUrl } from "@/config/api";
 
 export default function EquipmentForm({ equipment, onSubmit, onCancel }) {
   // Helper function to convert ISO date to yyyy-MM-dd format
@@ -21,29 +22,51 @@ export default function EquipmentForm({ equipment, onSubmit, onCancel }) {
     }
   };
 
-  const [formData, setFormData] = useState(equipment ? {
-    ...equipment,
-    purchase_date: formatDateForInput(equipment.purchase_date),
-    warranty_end_date: formatDateForInput(equipment.warranty_end_date),
-    last_maintenance_date: formatDateForInput(equipment.last_maintenance_date),
-    next_maintenance_date: formatDateForInput(equipment.next_maintenance_date)
-  } : {
-    name: "",
-    category: "cardio",
-    brand: "",
-    model: "",
-    serial_number: "",
-    purchase_date: "",
-    purchase_price: "",
-    warranty_end_date: "",
-    location: "",
-    condition: "good",
-    status: "operational",
-    last_maintenance_date: "",
-    next_maintenance_date: "",
-    maintenance_notes: "",
-    description: "",
-    quantity: 1
+  const [formData, setFormData] = useState(() => {
+    // Helper to convert null/undefined to empty string
+    const safeString = (value) => (value == null ? "" : String(value));
+    
+    if (equipment) {
+      return {
+        name: safeString(equipment.name),
+        category: safeString(equipment.category) || "cardio",
+        brand: safeString(equipment.brand),
+        model: safeString(equipment.model),
+        serial_number: safeString(equipment.serial_number),
+        purchase_date: formatDateForInput(equipment.purchase_date),
+        purchase_price: equipment.purchase_price != null ? String(equipment.purchase_price) : "",
+        warranty_end_date: formatDateForInput(equipment.warranty_end_date),
+        location: safeString(equipment.location),
+        condition: safeString(equipment.condition) || "good",
+        status: safeString(equipment.status) || "operational",
+        last_maintenance_date: formatDateForInput(equipment.last_maintenance_date),
+        next_maintenance_date: formatDateForInput(equipment.next_maintenance_date),
+        maintenance_notes: safeString(equipment.maintenance_notes),
+        description: safeString(equipment.description),
+        quantity: equipment.quantity != null ? String(equipment.quantity) : "1",
+        image_path: safeString(equipment.image_path)
+      };
+    }
+    
+    return {
+      name: "",
+      category: "cardio",
+      brand: "",
+      model: "",
+      serial_number: "",
+      purchase_date: "",
+      purchase_price: "",
+      warranty_end_date: "",
+      location: "",
+      condition: "good",
+      status: "operational",
+      last_maintenance_date: "",
+      next_maintenance_date: "",
+      maintenance_notes: "",
+      description: "",
+      quantity: "1",
+      image_path: ""
+    };
   });
 
   const [imageFile, setImageFile] = useState(null);
@@ -358,7 +381,7 @@ export default function EquipmentForm({ equipment, onSubmit, onCancel }) {
 
               <ImageUpload 
                 onImageSelect={setImageFile}
-                currentImage={equipment?.image_path ? `http://localhost:5000${equipment.image_path}` : null}
+                currentImage={equipment?.image_path ? getFileUrl(equipment.image_path) : null}
               />
 
               <div>

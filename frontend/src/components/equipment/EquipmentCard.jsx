@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getFileUrl } from "@/config/api";
 import { 
   MoreHorizontal, 
   Edit, 
@@ -60,11 +61,7 @@ export default function EquipmentCard({ equipment, onEdit, onDelete, onViewDetai
   
   // Construct image URL - handle both full paths and relative paths
   const getImageUrl = () => {
-    if (!imagePath) return null;
-    if (imagePath.startsWith('http')) return imagePath;
-    // Construct full URL for backend images
-    const baseUrl = 'http://localhost:5000';
-    return `${baseUrl}${imagePath}`;
+    return getFileUrl(imagePath);
   };
   
   const imageUrl = getImageUrl();
