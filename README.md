@@ -211,6 +211,9 @@ For issues and questions:
 
 - **[DEPLOY_GUIDE.md](DEPLOY_GUIDE.md)** - Complete step-by-step deployment guide
 - **[QUICK_DEPLOY.md](QUICK_DEPLOY.md)** - Quick 5-minute deployment reference
+- **[NEXT_STEPS.md](NEXT_STEPS.md)** - Next steps after backend deployment
+- **[VERCEL_DEPLOYMENT_FIX.md](VERCEL_DEPLOYMENT_FIX.md)** - Fix for "cd: frontend: No such file" Vercel error
+- **[RENDER_TROUBLESHOOTING.md](RENDER_TROUBLESHOOTING.md)** - Common Render deployment errors and solutions
 - **[BACKEND_ENV_VARIABLES.md](BACKEND_ENV_VARIABLES.md)** - Backend environment variables reference
 - **[MONGODB_CONNECTION_STRING.md](MONGODB_CONNECTION_STRING.md)** - MongoDB connection string guide
 - **[SPLIT_REPOSITORIES.md](SPLIT_REPOSITORIES.md)** - Guide for separating backend/frontend repos

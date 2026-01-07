@@ -31,9 +31,13 @@ git push -u origin main
 1. Go to [render.com](https://render.com) → **New Web Service**
 2. Connect GitHub repo (`gms-backend`)
 3. Settings:
-   - **Root Directory**: Leave empty (repository root)
+   - **Root Directory**: 
+     - Separate repo: Leave empty
+     - Monorepo: Set to `backend`
    - **Build**: `npm install`
    - **Start**: `npm start`
+   
+   ⚠️ If you get "Missing script: start" error, set Root Directory to `backend`
 4. Environment Variables:
    ```
    NODE_ENV=production

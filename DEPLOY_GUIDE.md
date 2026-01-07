@@ -101,13 +101,17 @@ mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/gms?retryWrites=true&
 
 **Settings:**
 - **Name**: `gms-backend` (or your preferred name)
-- **Root Directory**: Leave empty (repository root)
+- **Root Directory**: 
+  - If deploying from **separate backend repository**: Leave empty (repository root)
+  - If deploying from **monorepo** (backend in subfolder): Set to `backend`
 - **Environment**: `Node`
 - **Build Command**: `npm install`
 - **Start Command**: `npm start`
 - **Plan**: Free (or paid for better performance)
 
-**Note**: Since backend is in its own repository, root directory should be empty or `/`.
+**⚠️ Important**: If you get "Missing script: start" error, set **Root Directory** to `backend` in Render settings.
+
+📚 **Troubleshooting**: See [RENDER_TROUBLESHOOTING.md](RENDER_TROUBLESHOOTING.md) for common deployment errors.
 
 ### 3.3 Set Environment Variables
 
