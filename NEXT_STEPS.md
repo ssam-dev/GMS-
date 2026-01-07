@@ -116,9 +116,13 @@ But this is less secure for production.
 ### CORS Errors
 
 If you see CORS errors in browser console:
-- Verify `CORS_ORIGIN` in Render matches your frontend URL exactly
+- Verify `CORS_ORIGIN` in Render matches your frontend **base URL** exactly (no path, no trailing slash)
+- Example: `https://gms-6vat7ftxe-samarth-saindanes-projects.vercel.app` (NOT `/dashboard`)
 - Include protocol (`https://`) and no trailing slash
 - Redeploy backend after updating
+- Wait 2-3 minutes for deployment to complete
+
+📚 **Detailed Guide**: See [CORS_TROUBLESHOOTING.md](CORS_TROUBLESHOOTING.md) for complete CORS troubleshooting.
 
 ### API Not Responding
 

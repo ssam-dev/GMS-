@@ -71,8 +71,13 @@ export const apiClient = {
     });
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({ error: res.statusText }));
+      console.error('❌ API Client - Create trainer error:', errorData);
       if (res.status === 429) {
         throw new Error("Too many requests. Please wait a moment and try again.");
+      }
+      // Surface validation errors from backend so the user sees the exact issue
+      if (errorData.errors && Array.isArray(errorData.errors)) {
+        throw new Error(errorData.errors.join(', '));
       }
       throw new Error(errorData.error || errorData.message || `Failed to add trainer: ${res.status} ${res.statusText}`);
     }
