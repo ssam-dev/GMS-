@@ -24,7 +24,11 @@ export const apiClient = {
       if (res.status === 429) {
         throw new Error("Too many requests. Please wait a moment and try again.");
       }
-      throw new Error(errorData.error || errorData.message || `Failed to add member: ${res.status} ${res.statusText}`);
+      // Handle validation errors array or single error message
+      const errorMessage = errorData.errors 
+        ? errorData.errors.join(', ') 
+        : (errorData.error || errorData.message || `Failed to add member: ${res.status} ${res.statusText}`);
+      throw new Error(errorMessage);
     }
     return res.json();
   },
@@ -39,7 +43,11 @@ export const apiClient = {
       if (res.status === 429) {
         throw new Error("Too many requests. Please wait a moment and try again.");
       }
-      throw new Error(errorData.error || errorData.message || `Failed to update member: ${res.status} ${res.statusText}`);
+      // Handle validation errors array or single error message
+      const errorMessage = errorData.errors 
+        ? errorData.errors.join(', ') 
+        : (errorData.error || errorData.message || `Failed to update member: ${res.status} ${res.statusText}`);
+      throw new Error(errorMessage);
     }
     return res.json();
   },
