@@ -244,7 +244,7 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
       console.log('📤 Certificate files being saved:', submitData.certificate_files);
       console.log('📤 Profile photo URL being saved:', profilePhotoUrl);
       
-      onSubmit(submitData);
+      await onSubmit(submitData);
     } catch (error) {
       console.error('❌ Submit error:', error);
       setErrors({ submit: error.message || 'Failed to save trainer. Please try again.' });

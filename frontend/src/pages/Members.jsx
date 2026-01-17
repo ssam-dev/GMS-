@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Member } from "@/entities/Member";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Search, Filter, Users, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
 
 import MemberCard from "../components/members/MemberCard";
 import MemberForm from "../components/members/MemberForm";
@@ -31,18 +32,7 @@ export default function Members() {
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
-  useEffect(() => {
-    loadMembers();
-  }, [currentPage, statusFilter, membershipFilter, searchTerm]);
-
-  useEffect(() => {
-    // Reset to first page when filters change
-    if (currentPage !== 1) {
-      setCurrentPage(1);
-    }
-  }, [statusFilter, membershipFilter, searchTerm]);
-
-  const loadMembers = async () => {
+  const loadMembers = useCallback(async () => {
     setIsLoading(true);
     try {
       // Fetch all members first, then filter client-side for simplicity
@@ -112,7 +102,16 @@ export default function Members() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [currentPage, statusFilter, membershipFilter, searchTerm, debugShowAll, itemsPerPage]);
+
+  useEffect(() => {
+    // Reset to first page when filters change, otherwise load members
+    if ((statusFilter !== "all" || membershipFilter !== "all" || searchTerm) && currentPage !== 1) {
+      setCurrentPage(1);
+    } else {
+      loadMembers();
+    }
+  }, [currentPage, statusFilter, membershipFilter, searchTerm, loadMembers]);
 
   const handleSubmit = async (memberData) => {
     try {
@@ -135,6 +134,8 @@ export default function Members() {
       loadMembers();
     } catch (error) {
       console.error("Error saving member:", error);
+      // Re-throw the error so the form can handle it and show the toast
+      throw error;
     }
     // Debug UI to toggle filters/pagination
     // Place this button somewhere in your render return for troubleshooting:
@@ -153,9 +154,12 @@ export default function Members() {
   const handleDelete = async (memberId) => {
     try {
       await Member.delete(memberId);
+      toast.success("Member deleted successfully");
       loadMembers();
     } catch (error) {
       console.error("Error deleting member:", error);
+      const errorMessage = error.message || "Failed to delete member. Please try again.";
+      toast.error(errorMessage, { duration: 5000 });
     }
   };
 

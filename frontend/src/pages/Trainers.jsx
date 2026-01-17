@@ -34,15 +34,14 @@ export default function Trainers() {
   const [availableSpecializations, setAvailableSpecializations] = useState([]);
 
   useEffect(() => {
-    loadTrainers();
-    loadSpecializations();
-  }, [currentPage, statusFilter, specializationFilter, availabilityFilter, searchTerm]);
-
-  useEffect(() => {
-    if (currentPage !== 1) {
+    // Reset to first page when filters change, otherwise load trainers
+    if ((statusFilter !== "all" || specializationFilter !== "all" || availabilityFilter !== "all" || searchTerm) && currentPage !== 1) {
       setCurrentPage(1);
+    } else {
+      loadTrainers();
+      loadSpecializations();
     }
-  }, [statusFilter, specializationFilter, availabilityFilter, searchTerm]);
+  }, [currentPage, statusFilter, specializationFilter, availabilityFilter, searchTerm]);
 
   const loadTrainers = async () => {
     setIsLoading(true);
@@ -449,7 +448,11 @@ export default function Trainers() {
           {showDetails && selectedTrainer && (
             <TrainerDetails
               trainer={selectedTrainer}
-              onEdit={handleEdit}
+              onEdit={(trainer) => {
+                setShowDetails(false);
+                setSelectedTrainer(null);
+                handleEdit(trainer);
+              }}
               onDelete={handleDelete}
               onClose={() => {
                 setShowDetails(false);

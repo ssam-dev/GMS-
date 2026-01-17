@@ -59,6 +59,43 @@ app.use(morgan("combined"));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
+// Debug middleware - log request metadata for POST/PUT requests (sensitive fields masked)
+if (process.env.NODE_ENV !== "production") {
+  app.use((req, res, next) => {
+    if (req.method === "POST" || req.method === "PUT") {
+      const sensitiveKeys = ['password', 'token', 'access_token', 'authorization', 'email', 'ssn', 'credit_card'];
+      // Deep clone to avoid mutating original req.body
+      const maskedBody = JSON.parse(JSON.stringify(req.body));
+      
+      // Recursively mask sensitive fields, including arrays
+      const maskObject = (obj) => {
+        if (Array.isArray(obj)) {
+          obj.forEach((item, index) => {
+            if (item && typeof item === 'object') {
+              maskObject(item);
+            }
+          });
+        } else if (obj && typeof obj === 'object') {
+          for (const key in obj) {
+            if (sensitiveKeys.some(sensitive => key.toLowerCase().includes(sensitive))) {
+              obj[key] = '***REDACTED***';
+            } else if (obj[key] && typeof obj[key] === 'object') {
+              maskObject(obj[key]);
+            }
+          }
+        }
+      };
+      maskObject(maskedBody);
+      
+      console.log(`📥 ${req.method} ${req.path}`);
+      console.log('Content-Type:', req.get('content-type'));
+      console.log('Content-Length:', req.get('content-length'));
+      console.log('Request body (masked):', JSON.stringify(maskedBody, null, 2));
+    }
+    next();
+  });
+}
+
 // Create uploads directory structure if it doesn't exist
 const uploadsPath = path.join(__dirname, "../uploads");
 const equipmentPath = path.join(uploadsPath, "equipment");

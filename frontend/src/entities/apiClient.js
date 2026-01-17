@@ -70,8 +70,6 @@ export const apiClient = {
     return res.json();
   },
   async addTrainer(data) {
-    console.log('API Client - Adding trainer with data:', data);
-    console.log('API Client - profile_photo value:', data.profile_photo);
     const res = await fetch(`${API_BASE}/trainers`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -79,7 +77,6 @@ export const apiClient = {
     });
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({ error: res.statusText }));
-      console.error('❌ API Client - Create trainer error:', errorData);
       if (res.status === 429) {
         throw new Error("Too many requests. Please wait a moment and try again.");
       }
@@ -89,12 +86,9 @@ export const apiClient = {
       }
       throw new Error(errorData.error || errorData.message || `Failed to add trainer: ${res.status} ${res.statusText}`);
     }
-    const result = await res.json();
-    console.log('API Client - Server response:', result);
-    return result;
+    return res.json();
   },
   async updateTrainer(id, data) {
-    console.log('📤 API Client - Updating trainer:', id, data);
     const res = await fetch(`${API_BASE}/trainers/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -102,7 +96,6 @@ export const apiClient = {
     });
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({ error: res.statusText }));
-      console.error('❌ API Client - Update error:', errorData);
       if (res.status === 429) {
         throw new Error("Too many requests. Please wait a moment and try again.");
       }
@@ -112,9 +105,7 @@ export const apiClient = {
       }
       throw new Error(errorData.error || errorData.message || `Failed to update trainer: ${res.status} ${res.statusText}`);
     }
-    const result = await res.json();
-    console.log('✅ API Client - Update success:', result);
-    return result;
+    return res.json();
   },
   async deleteTrainer(id) {
     const res = await fetch(`${API_BASE}/trainers/${id}`, {
@@ -146,7 +137,11 @@ export const apiClient = {
       if (res.status === 429) {
         throw new Error("Too many requests. Please wait a moment and try again.");
       }
-      throw new Error(errorData.error || errorData.message || `Failed to add equipment: ${res.status} ${res.statusText}`);
+      // Handle validation errors array or single error message
+      const errorMessage = errorData.errors 
+        ? errorData.errors.join(', ') 
+        : (errorData.error || errorData.message || `Failed to add equipment: ${res.status} ${res.statusText}`);
+      throw new Error(errorMessage);
     }
     return res.json();
   },
@@ -161,7 +156,11 @@ export const apiClient = {
       if (res.status === 429) {
         throw new Error("Too many requests. Please wait a moment and try again.");
       }
-      throw new Error(errorData.error || errorData.message || `Failed to update equipment: ${res.status} ${res.statusText}`);
+      // Handle validation errors array or single error message
+      const errorMessage = errorData.errors 
+        ? errorData.errors.join(', ') 
+        : (errorData.error || errorData.message || `Failed to update equipment: ${res.status} ${res.statusText}`);
+      throw new Error(errorMessage);
     }
     return res.json();
   },

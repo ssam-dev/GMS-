@@ -144,7 +144,10 @@ export default function MemberForm({ member, onSubmit, onCancel }) {
       toast.success(member ? "Member updated successfully!" : "Member added successfully!");
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast.error("Failed to save member. Please try again.");
+      const errorMessage = error.message || "Failed to save member. Please try again.";
+      toast.error(errorMessage, {
+        duration: 5000,
+      });
     } finally {
       setIsSubmitting(false);
     }

@@ -585,7 +585,11 @@ export default function EquipmentPage() {
           {showDetails && selectedEquipment && (
             <EquipmentDetails
               equipment={selectedEquipment}
-              onEdit={handleEdit}
+              onEdit={(equipment) => {
+                setShowDetails(false);
+                setSelectedEquipment(null);
+                handleEdit(equipment);
+              }}
               onDelete={handleDelete}
               onRefresh={(updatedEquipment) => setSelectedEquipment(updatedEquipment)}
               onClose={() => {
