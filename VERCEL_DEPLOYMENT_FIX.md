@@ -25,13 +25,13 @@ This error occurs when Vercel tries to build but can't find the `frontend` direc
 
 ### Option 2: Keep Root Directory Empty (Not Recommended)
 
-If you don't set Root Directory, you'll need to update `vercel.json` manually:
+If you have set the **Root Directory** to `frontend` in Vercel, use root-relative commands in `vercel.json`:
 
 ```json
 {
-  "buildCommand": "npm --prefix frontend run build",
-  "installCommand": "npm install && npm --prefix frontend install",
-  "outputDirectory": "frontend/dist",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": "dist",
   "framework": "vite",
   "rewrites": [
     {
@@ -42,7 +42,7 @@ If you don't set Root Directory, you'll need to update `vercel.json` manually:
 }
 ```
 
-**Tip**: Using `npm --prefix frontend` runs `npm` in the `frontend` directory without requiring `cd`, which is more robust in CI environments.
+**Note**: If you DO NOT set the Root Directory in Vercel, use `npm --prefix frontend` (or set the Root Directory to `frontend`) — do not use both, as that will result in paths like `frontend/frontend` and cause npm ENOENT errors.
 
 **⚠️ Note**: Option 1 (setting Root Directory) is much simpler and recommended.
 
