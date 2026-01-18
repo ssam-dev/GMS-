@@ -29,7 +29,8 @@ If you don't set Root Directory, you'll need to update `vercel.json` manually:
 
 ```json
 {
-  "buildCommand": "cd frontend && npm install && npm run build",
+  "buildCommand": "npm --prefix frontend run build",
+  "installCommand": "npm install && npm --prefix frontend install",
   "outputDirectory": "frontend/dist",
   "framework": "vite",
   "rewrites": [
@@ -40,6 +41,8 @@ If you don't set Root Directory, you'll need to update `vercel.json` manually:
   ]
 }
 ```
+
+**Tip**: Using `npm --prefix frontend` runs `npm` in the `frontend` directory without requiring `cd`, which is more robust in CI environments.
 
 **⚠️ Note**: Option 1 (setting Root Directory) is much simpler and recommended.
 
