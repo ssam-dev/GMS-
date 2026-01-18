@@ -132,14 +132,19 @@ const SidebarMenuButton = React.forwardRef(({ className, asChild = false, ...pro
 SidebarMenuButton.displayName = "SidebarMenuButton"
 
 const SidebarTrigger = React.forwardRef(({ className, ...props }, ref) => {
-  const { toggleSidebar } = useSidebar()
+  const { openMobile, setOpenMobile } = useSidebar()
+  const handleClick = (e) => {
+    setOpenMobile((prev) => !prev)
+  }
   return (
     <Button
       ref={ref}
       variant="ghost"
       size="icon"
       className={cn("md:hidden", className)}
-      onClick={toggleSidebar}
+      onClick={handleClick}
+      aria-expanded={openMobile}
+      aria-label="Toggle sidebar"
       {...props}
     >
       <PanelLeft className="h-4 w-4" />

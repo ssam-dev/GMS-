@@ -61,7 +61,7 @@ export default function Dashboard() {
   const today = format(new Date(), 'yyyy-MM-dd');
 
   return (
-    <div className="p-6 md:p-8 bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+    <div className="p-4 sm:p-6 md:p-8 bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div 
@@ -78,7 +78,7 @@ export default function Dashboard() {
         </motion.div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
           <StatsCard
             title="Active Members"
             value={stats.activeMembers}
@@ -127,19 +127,19 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                  <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                     <span className="text-sm font-medium text-slate-700">New Members Today</span>
                     <Badge variant="outline" className="bg-blue-100 text-blue-700">
                       {members.filter(m => m && m.created_date === today).length}
                     </Badge>
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                  <div className="flex items-center justify-between p-2 sm:p-3 bg-green-50 rounded-lg">
                     <span className="text-sm font-medium text-slate-700">Active Trainers</span>
                     <Badge variant="outline" className="bg-green-100 text-green-700">
                       {stats.totalTrainers}
                     </Badge>
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-amber-50 rounded-lg">
+                  <div className="flex items-center justify-between p-2 sm:p-3 bg-amber-50 rounded-lg">
                     <span className="text-sm font-medium text-slate-700">Maintenance Due</span>
                     <Badge variant="outline" className="bg-amber-100 text-amber-700">
                       {equipment.filter(e => e && e.next_maintenance_date && e.next_maintenance_date <= today).length}
@@ -158,7 +158,7 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
+                  <div className="flex items-center gap-3 p-2 sm:p-3 bg-slate-50 rounded-lg">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                     <div className="flex-1">
                       <p className="text-sm font-medium text-slate-700">New member registered</p>

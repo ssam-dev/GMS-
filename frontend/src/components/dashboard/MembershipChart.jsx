@@ -67,7 +67,7 @@ export default function MembershipChart({ members, isLoading }) {
         ) : (
           <div className="space-y-4">
             {Object.entries(stats).filter(([key]) => key !== 'total').map(([type, count]) => (
-              <div key={type} className="flex items-center justify-between p-3 rounded-lg border border-slate-200">
+              <div key={type} className="flex items-center justify-between p-2 sm:p-3 rounded-lg border border-slate-200">
                 <div className="flex items-center gap-3">
                   <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
                     type === 'basic' ? 'bg-blue-100' :
