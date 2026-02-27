@@ -1,4 +1,5 @@
 {
+  "_comment": "This file is for reference. If Root Directory in Vercel is set to 'frontend', use frontend/vercel.json instead.",
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "outputDirectory": "dist",
