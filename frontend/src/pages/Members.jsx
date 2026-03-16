@@ -199,241 +199,241 @@ export default function Members() {
   };
 
   return (
-    <div className="p-6 md:p-8 bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
+    <div className="flex flex-col gap-6 text-white pb-20">
+      {/* Header */}
+      <motion.div 
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+      >
+        <div>
+          <h1 className="text-2xl font-bold mb-1">
+            Manage your gym members
+          </h1>
+          <p className="text-sm text-slate-400">
+            Manage your gym members and memberships ({totalItems} total)
+          </p>
+        </div>
+        <Button
+          onClick={() => setShowForm(true)}
+          className="bg-blue-600 hover:bg-blue-700 text-white shadow-none w-full md:w-auto mt-2 md:mt-0"
         >
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
-              Members
-            </h1>
-            <p className="text-slate-600">
-              Manage your gym members and memberships ({totalItems} total)
+          <Plus className="w-4 h-4 mr-2" />
+          Add Member
+        </Button>
+      </motion.div>
+
+      {/* Stats - Load separately for performance */}
+      <MemberStats isLoading={isLoading} />
+
+      {/* Debug Info */}
+      {members.length === 0 && !isLoading && (
+        <Card className="bg-[#121A2F] border-slate-800 shadow-none mb-6">
+          <CardContent className="p-4">
+            <p className="text-sm text-slate-400">
+              <strong>Debug:</strong> Loaded {totalItems} members from API. 
+              Filters: Status={statusFilter}, Membership={membershipFilter}, Search="{searchTerm}"
             </p>
-          </div>
-          <Button
-            onClick={() => setShowForm(true)}
-            className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg"
-          >
-            <Plus className="w-5 h-5 mr-2" />
-            Add Member
-          </Button>
-        </motion.div>
+            <button 
+              onClick={() => { setStatusFilter("all"); setMembershipFilter("all"); setSearchTerm(""); }}
+              className="text-xs mt-2 px-3 py-1 bg-blue-600/10 text-blue-500 rounded hover:bg-blue-600/20 transition-colors"
+            >
+              Reset Filters
+            </button>
+          </CardContent>
+        </Card>
+      )}
 
-        {/* Stats - Load separately for performance */}
-        <MemberStats isLoading={isLoading} />
-
-        {/* Debug Info */}
-        {members.length === 0 && !isLoading && (
-          <Card className="bg-yellow-50 border-yellow-300 mb-6">
-            <CardContent className="p-4">
-              <p className="text-sm text-yellow-800">
-                <strong>Debug:</strong> Loaded {totalItems} members from API. 
-                Filters: Status={statusFilter}, Membership={membershipFilter}, Search="{searchTerm}"
-              </p>
-              <button 
-                onClick={() => { setStatusFilter("all"); setMembershipFilter("all"); setSearchTerm(""); }}
-                className="text-xs mt-2 px-3 py-1 bg-yellow-600 text-white rounded hover:bg-yellow-700"
-              >
-                Reset Filters
-              </button>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Filters */}
-        <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg mb-6">
-          <CardContent className="p-6">
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <Input
-                    placeholder="Search members..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
-                  />
-                </div>
+      {/* Filters */}
+      <Card className="bg-[#121A2F] border-slate-800 text-white shadow-none">
+        <CardContent className="p-4">
+          <div className="flex flex-col gap-4">
+            <div className="flex-1">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-500" />
+                <Input
+                  placeholder="Search members..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-9 h-10 bg-[#1A233A] border-slate-800 text-white placeholder-slate-500 focus-visible:ring-1 focus-visible:ring-blue-500"
+                />
               </div>
-              <div className="flex gap-2">
-                <select
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                  className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            </div>
+            <div className="flex gap-2">
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="flex-1 h-10 px-3 py-2 bg-[#1A233A] border border-slate-800 text-sm text-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 appearance-none"
+              >
+                <option value="all">All Status</option>
+                <option value="active">Active</option>
+                <option value="expired">Expired</option>
+                <option value="suspended">Suspended</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+              <select
+                value={membershipFilter}
+                onChange={(e) => setMembershipFilter(e.target.value)}
+                className="flex-1 h-10 px-3 py-2 bg-[#1A233A] border border-slate-800 text-sm text-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 appearance-none"
+              >
+                <option value="all">All Memberships</option>
+                <option value="basic">Basic</option>
+                <option value="premium">Premium</option>
+                <option value="vip">VIP</option>
+                <option value="student">Student</option>
+              </select>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Members Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <AnimatePresence>
+          {isLoading ? (
+            Array(itemsPerPage).fill(0).map((_, i) => (
+              <motion.div
+                key={`loading-${i}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                className="bg-[#121A2F] border border-slate-800 rounded-xl p-6 shadow-none"
+              >
+                <div className="animate-pulse">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-[#1A233A] rounded-full"></div>
+                    <div>
+                      <div className="h-4 bg-[#1A233A] rounded w-24 mb-2"></div>
+                      <div className="h-3 bg-[#1A233A] rounded w-16"></div>
+                    </div>
+                  </div>
+                  <div className="space-y-2 mt-6">
+                    <div className="h-3 bg-[#1A233A] rounded w-full"></div>
+                    <div className="h-3 bg-[#1A233A] rounded w-3/4"></div>
+                  </div>
+                </div>
+              </motion.div>
+            ))
+          ) : members.length === 0 ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="col-span-full text-center py-12"
+            >
+              <Users className="w-12 h-12 text-slate-600 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-white mb-2">No members found</h3>
+              <p className="text-sm text-slate-400 mb-6">
+                {searchTerm || statusFilter !== "all" || membershipFilter !== "all"
+                  ? "Try adjusting your filters"
+                  : "Get started by adding your first member"
+                }
+              </p>
+              {!searchTerm && statusFilter === "all" && membershipFilter === "all" && (
+                <Button onClick={() => setShowForm(true)} className="bg-blue-600 hover:bg-blue-700 text-white shadow-none">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Your First Member
+                </Button>
+              )}
+            </motion.div>
+          ) : (
+            members.map((member) => (
+              member && member.id ? (
+                <MemberCard
+                  key={`member-${member.id}`}
+                  member={member}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                  onViewDetails={handleViewDetails}
+                />
+              ) : null
+            ))
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <Card className="bg-[#121A2F] border-slate-800 text-white shadow-none mt-2">
+          <CardContent className="p-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="text-xs text-slate-400">
+                Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} members
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handlePreviousPage}
+                  disabled={currentPage === 1}
+                  className="border-slate-800 bg-[#1A233A] text-slate-300 hover:bg-slate-800 hover:text-white disabled:opacity-50 h-8"
                 >
-                  <option value="all">All Status</option>
-                  <option value="active">Active</option>
-                  <option value="expired">Expired</option>
-                  <option value="suspended">Suspended</option>
-                  <option value="cancelled">Cancelled</option>
-                </select>
-                <select
-                  value={membershipFilter}
-                  onChange={(e) => setMembershipFilter(e.target.value)}
-                  className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  <ChevronLeft className="w-4 h-4 mr-1" />
+                  Prev
+                </Button>
+                
+                {/* Page numbers */}
+                <div className="hidden md:flex items-center gap-1">
+                  {getPageNumbers().map((page) => (
+                    <Button
+                      key={page}
+                      variant={currentPage === page ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => handlePageChange(page)}
+                      className={`w-8 h-8 rounded-lg ${currentPage === page ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-none' : 'border-slate-800 bg-[#1A233A] text-slate-300 hover:bg-slate-800 hover:text-white'}`}
+                    >
+                      {page}
+                    </Button>
+                  ))}
+                </div>
+                
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleNextPage}
+                  disabled={currentPage === totalPages}
+                  className="border-slate-800 bg-[#1A233A] text-slate-300 hover:bg-slate-800 hover:text-white disabled:opacity-50 h-8"
                 >
-                  <option value="all">All Memberships</option>
-                  <option value="basic">Basic</option>
-                  <option value="premium">Premium</option>
-                  <option value="vip">VIP</option>
-                  <option value="student">Student</option>
-                </select>
+                  Next
+                  <ChevronRight className="w-4 h-4 ml-1" />
+                </Button>
               </div>
             </div>
           </CardContent>
         </Card>
+      )}
 
-        {/* Members Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-          <AnimatePresence>
-            {isLoading ? (
-              Array(itemsPerPage).fill(0).map((_, i) => (
-                <motion.div
-                  key={`loading-${i}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                  className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg"
-                >
-                  <div className="animate-pulse">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-12 h-12 bg-slate-200 rounded-full"></div>
-                      <div>
-                        <div className="h-4 bg-slate-200 rounded w-24 mb-1"></div>
-                        <div className="h-3 bg-slate-200 rounded w-20"></div>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="h-3 bg-slate-200 rounded"></div>
-                      <div className="h-3 bg-slate-200 rounded w-3/4"></div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))
-            ) : members.length === 0 ? (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="col-span-full text-center py-12"
-              >
-                <Users className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-slate-600 mb-2">No members found</h3>
-                <p className="text-slate-500 mb-4">
-                  {searchTerm || statusFilter !== "all" || membershipFilter !== "all"
-                    ? "Try adjusting your filters"
-                    : "Get started by adding your first member"
-                  }
-                </p>
-                {!searchTerm && statusFilter === "all" && membershipFilter === "all" && (
-                  <Button onClick={() => setShowForm(true)}>
-                    <Plus className="w-4 h-4 mr-2" />
-                    Add Your First Member
-                  </Button>
-                )}
-              </motion.div>
-            ) : (
-              members.map((member) => (
-                member && member.id ? (
-                  <MemberCard
-                    key={`member-${member.id}`}
-                    member={member}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                    onViewDetails={handleViewDetails}
-                  />
-                ) : null
-              ))
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-slate-600">
-                  Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} members
-                </div>
-                
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                    Previous
-                  </Button>
-                  
-                  {/* Page numbers */}
-                  <div className="hidden md:flex items-center gap-1">
-                    {getPageNumbers().map((page) => (
-                      <Button
-                        key={page}
-                        variant={currentPage === page ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => handlePageChange(page)}
-                        className="w-8 h-8"
-                      >
-                        {page}
-                      </Button>
-                    ))}
-                  </div>
-                  
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                  >
-                    Next
-                    <ChevronRight className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+      {/* Member Form Modal */}
+      <AnimatePresence>
+        {showForm && (
+          <MemberForm
+            member={editingMember}
+            onSubmit={handleSubmit}
+            onCancel={() => {
+              setShowForm(false);
+              setEditingMember(null);
+            }}
+          />
         )}
+      </AnimatePresence>
 
-        {/* Member Form Modal */}
-        <AnimatePresence>
-          {showForm && (
-            <MemberForm
-              member={editingMember}
-              onSubmit={handleSubmit}
-              onCancel={() => {
-                setShowForm(false);
-                setEditingMember(null);
-              }}
-            />
-          )}
-        </AnimatePresence>
-
-        {/* Member Details Modal */}
-        <AnimatePresence>
-          {selectedMember && (
-            <MemberDetails
-              member={selectedMember}
-              onEdit={(member) => {
-                setSelectedMember(null);
-                handleEdit(member);
-              }}
-              onDelete={(id) => {
-                setSelectedMember(null);
-                handleDelete(id);
-              }}
-              onClose={() => setSelectedMember(null)}
-            />
-          )}
-        </AnimatePresence>
-      </div>
+      {/* Member Details Modal */}
+      <AnimatePresence>
+        {selectedMember && (
+          <MemberDetails
+            member={selectedMember}
+            onEdit={(member) => {
+              setSelectedMember(null);
+              handleEdit(member);
+            }}
+            onDelete={(id) => {
+              setSelectedMember(null);
+              handleDelete(id);
+            }}
+            onClose={() => setSelectedMember(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

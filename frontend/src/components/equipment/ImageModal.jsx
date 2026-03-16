@@ -31,7 +31,7 @@ export default function ImageModal({ isOpen, imageUrl, imageName, onClose, onRem
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 bg-red-500 hover:bg-red-600 text-white rounded-full p-3 transition-colors shadow-lg z-10"
+          className="absolute top-4 right-4 bg-[#1A233A] hover:bg-red-500 text-slate-400 hover:text-white border border-slate-700 rounded-full p-3 transition-colors shadow-lg z-10"
         >
           <X className="w-5 h-5" />
         </button>
@@ -43,7 +43,7 @@ export default function ImageModal({ isOpen, imageUrl, imageName, onClose, onRem
               variant="destructive"
               size="lg"
               onClick={onRemove}
-              className="gap-2"
+              className="gap-2 bg-red-600 hover:bg-red-700 text-white"
             >
               <Trash2 className="w-4 h-4" />
               Remove Image
@@ -53,7 +53,7 @@ export default function ImageModal({ isOpen, imageUrl, imageName, onClose, onRem
             variant="outline"
             size="lg"
             onClick={onClose}
-            className="gap-2"
+            className="gap-2 border-slate-700 bg-[#121A2F] text-slate-300 hover:bg-slate-800 hover:text-white"
           >
             Close
           </Button>

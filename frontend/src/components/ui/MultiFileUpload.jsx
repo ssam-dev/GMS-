@@ -145,16 +145,16 @@ export default function MultiFileUpload({
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 10 }}
               >
-                <Card className="p-3 bg-slate-50 border border-slate-200 hover:border-slate-300">
+                <Card className="p-3 bg-[#121A2F]/50 border border-slate-700 hover:border-slate-600 transition-colors">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3 flex-1">
+                    <div className="flex items-center gap-3 flex-1 min-w-0">
                       {getFileIcon(file)}
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-slate-900 truncate">
+                        <p className="text-sm font-medium text-white truncate">
                           {getFileName(file)}
                         </p>
                         {typeof file !== 'string' && (
-                          <p className="text-xs text-slate-500">
+                          <p className="text-xs text-slate-400">
                             {(file.size / 1024).toFixed(2)} KB
                           </p>
                         )}
@@ -164,7 +164,7 @@ export default function MultiFileUpload({
                       variant="ghost"
                       size="icon"
                       onClick={() => handleRemoveFile(index)}
-                      className="hover:bg-red-100 hover:text-red-600 flex-shrink-0"
+                      className="text-slate-400 hover:bg-red-900/30 hover:text-red-400 flex-shrink-0"
                     >
                       <X className="w-4 h-4" />
                     </Button>
@@ -184,23 +184,23 @@ export default function MultiFileUpload({
           exit={{ opacity: 0 }}
         >
           <Card
-            className="border-2 border-dashed border-slate-300 hover:border-blue-500 transition-colors cursor-pointer bg-slate-50 hover:bg-blue-50"
+            className="border-2 border-dashed border-slate-700 hover:border-blue-500 transition-all cursor-pointer bg-[#121A2F]/50 hover:bg-[#1A233A]/50 group"
             onClick={handleClick}
             onDragOver={handleDragOver}
             onDrop={handleDrop}
           >
             <div className="p-6 text-center space-y-3">
               <div className="flex justify-center">
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <Upload className="w-5 h-5 text-blue-600" />
+                <div className="p-2 bg-blue-900/20 rounded-lg group-hover:bg-blue-900/40 transition-colors">
+                  <Upload className="w-5 h-5 text-blue-400" />
                 </div>
               </div>
               <div>
-                <p className="font-semibold text-slate-900 text-sm">{label}</p>
-                <p className="text-xs text-slate-500 mt-1">
+                <p className="font-semibold text-white text-sm">{label}</p>
+                <p className="text-xs text-slate-400 mt-1">
                   Drag and drop or click to browse
                 </p>
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-slate-500 mt-1">
                   {maxFiles - uploadedFiles.length} of {maxFiles} files remaining
                 </p>
               </div>
@@ -210,6 +210,7 @@ export default function MultiFileUpload({
                     type="button"
                     variant="outline"
                     size="sm"
+                    className="border-slate-700 bg-[#121A2F] text-slate-300 hover:bg-slate-800 hover:text-white"
                     onClick={(e) => {
                       e.stopPropagation();
                       fileInputRef.current?.click();
@@ -222,6 +223,7 @@ export default function MultiFileUpload({
                     type="button"
                     variant="outline"
                     size="sm"
+                    className="border-slate-700 bg-[#121A2F] text-slate-300 hover:bg-slate-800 hover:text-white"
                     onClick={(e) => {
                       e.stopPropagation();
                       cameraInputRef.current?.click();

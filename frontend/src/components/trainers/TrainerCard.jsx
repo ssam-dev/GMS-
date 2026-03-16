@@ -1,6 +1,5 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getFileUrl } from "@/config/api";
 import { 
@@ -11,8 +10,6 @@ import {
   Phone, 
   Eye, 
   Clock, 
-  Award,
-  Calendar
 } from "lucide-react";
 import { motion } from "framer-motion";
 import {
@@ -23,16 +20,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const statusColors = {
-  active: "bg-green-100 text-green-700 border-green-200",
-  inactive: "bg-red-100 text-red-700 border-red-200",
-  on_leave: "bg-yellow-100 text-yellow-700 border-yellow-200",
+  active: "text-green-500",
+  inactive: "text-red-500",
+  on_leave: "text-yellow-500",
 };
 
 const availabilityColors = {
-  "Full Day": "bg-blue-100 text-blue-700",
-  "Morning": "bg-orange-100 text-orange-700",
-  "Evening": "bg-purple-100 text-purple-700",
-  "Afternoon": "bg-green-100 text-green-700",
+  "Full Day": "text-blue-500",
+  "Morning": "text-orange-500",
+  "Evening": "text-purple-500",
+  "Afternoon": "text-green-500",
 };
 
 export default function TrainerCard({ trainer, onEdit, onDelete, onViewDetails }) {
@@ -78,178 +75,141 @@ export default function TrainerCard({ trainer, onEdit, onDelete, onViewDetails }
   
   const hourlyRate = trainer.hourly_rate;
   const profilePhoto = trainer.profile_photo ? String(trainer.profile_photo) : '';
+  const experience = getExperienceYears();
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      whileHover={{ y: -5 }}
-      transition={{ duration: 0.3 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.2 }}
     >
-      <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 group">
-        <CardContent className="p-6">
-          {/* Header with actions */}
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                {profilePhoto ? (
-                  <img
-                    src={getFileUrl(profilePhoto)}
-                    alt={`${firstName} ${lastName}`}
-                    className="w-14 h-14 rounded-full object-cover border-2 border-slate-200"
-                  />
-                ) : (
-                  <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
-                    <span className="text-white font-semibold text-lg">
-                      {firstName.charAt(0) || 'T'}{lastName.charAt(0) || 'R'}
-                    </span>
-                  </div>
-                )}
-                <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white ${
-                  status === 'active' ? 'bg-green-500' : 
-                  status === 'on_leave' ? 'bg-yellow-500' : 'bg-red-500'
-                }`}></div>
-              </div>
-              <div>
-                <h3 className="font-semibold text-slate-900 text-lg">
+      <Card className="bg-[#121A2F] border-slate-800 shadow-none overflow-hidden hover:bg-[#1A233A] transition-colors relative group">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="absolute top-2 right-2 text-slate-500 hover:text-white hover:bg-slate-800 h-8 w-8 z-10">
+              <MoreHorizontal className="w-4 h-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="bg-[#1A233A] border-slate-800 text-white">
+            <DropdownMenuItem onClick={() => onViewDetails(trainer)} className="hover:bg-slate-800 focus:bg-slate-800 cursor-pointer">
+              <Eye className="w-4 h-4 mr-2" />
+              View Details
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onEdit(trainer)} className="hover:bg-slate-800 focus:bg-slate-800 cursor-pointer">
+              <Edit className="w-4 h-4 mr-2" />
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem 
+              onClick={() => onDelete(trainer.id)} 
+              className="text-red-500 hover:bg-slate-800 focus:bg-slate-800 cursor-pointer"
+            >
+              <Trash2 className="w-4 h-4 mr-2" />
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <CardContent className="p-4">
+          <div className="flex items-start gap-4">
+            <div className="relative shrink-0">
+              {profilePhoto ? (
+                <img
+                  src={getFileUrl(profilePhoto)}
+                  alt={`${firstName} ${lastName}`}
+                  className="w-10 h-10 rounded-full object-cover border border-slate-700"
+                />
+              ) : (
+                <div className="w-10 h-10 bg-blue-600/20 rounded-full flex items-center justify-center">
+                  <span className="text-blue-500 font-semibold text-sm">
+                    {firstName.charAt(0) || 'T'}{lastName.charAt(0) || 'R'}
+                  </span>
+                </div>
+              )}
+            </div>
+            
+            <div className="flex-1 min-w-0 pr-6">
+              <div className="flex items-center gap-2 mb-0.5">
+                <h3 className="font-medium text-white text-sm truncate">
                   {firstName} {lastName}
                 </h3>
-                <p className="text-sm text-slate-500">
-                  {getExperienceYears()} years experience
-                </p>
+                <span className={`text-[10px] uppercase font-bold tracking-wider ${statusColors[status] || statusColors.active}`}>
+                  {status === 'on_leave' ? 'ON LEAVE' : status}
+                </span>
+              </div>
+              
+              <p className="text-xs text-slate-400 capitalize mb-2 flex items-center gap-1 flex-wrap">
+                {experience} years exp • 
+                <span className={`${availabilityColors[availability] || 'text-slate-400'} flex items-center gap-1`}>
+                  <Clock className="w-3 h-3" />
+                  {availability || 'Not set'}
+                </span>
+              </p>
+              
+              <div className="space-y-1 mt-3">
+                {email && (
+                  <div className="flex items-center gap-2 text-xs text-slate-400">
+                    <Mail className="w-3.5 h-3.5" />
+                    <span className="truncate">{email}</span>
+                  </div>
+                )}
+                {phone && (
+                  <div className="flex items-center gap-2 text-xs text-slate-400">
+                    <Phone className="w-3.5 h-3.5" />
+                    <span>{phone}</span>
+                  </div>
+                )}
+              </div>
+              
+              <div className="mt-3 flex flex-wrap gap-1">
+                {specializations.length > 0 ? (
+                  specializations.slice(0, 2).map((spec, index) => (
+                    <div
+                      key={`spec-${index}`}
+                      className="px-2 py-0.5 bg-[#1A233A] border border-slate-800 text-[10px] text-slate-400 rounded-md"
+                    >
+                      {spec}
+                    </div>
+                  ))
+                ) : (
+                  <div className="px-2 py-0.5 bg-[#1A233A] border border-slate-800 text-[10px] text-slate-500 rounded-md">
+                    No specializations
+                  </div>
+                )}
+                {specializations.length > 2 && (
+                  <div className="px-2 py-0.5 bg-[#1A233A] border border-slate-800 text-[10px] text-slate-500 rounded-md">
+                    +{specializations.length - 2} more
+                  </div>
+                )}
               </div>
             </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  size="icon"
-                  className="opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                  <MoreHorizontal className="w-4 h-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => onViewDetails(trainer)}>
-                  <Eye className="w-4 h-4 mr-2" />
-                  View Details
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => onEdit(trainer)}>
-                  <Edit className="w-4 h-4 mr-2" />
-                  Edit
-                </DropdownMenuItem>
-                <DropdownMenuItem 
-                  onClick={() => onDelete(trainer.id)} 
-                  className="text-red-600"
-                >
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  Delete
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
           </div>
-
-          {/* Contact Info */}
-          <div className="space-y-2 mb-4">
-            <div className="flex items-center gap-2 text-sm text-slate-600">
-              <Mail className="w-4 h-4" />
+          
+          <div className="flex items-center justify-between gap-2 mt-4 pt-4 border-t border-slate-800/50">
+            <div className="flex-1 flex gap-2">
+              <button 
+                onClick={() => handlePhoneCall(phone)}
+                className="flex-1 flex items-center justify-center gap-2 py-1.5 text-xs text-blue-500 hover:text-blue-400 transition-colors bg-blue-600/10 hover:bg-blue-600/20 rounded-lg disabled:opacity-50"
+                disabled={!phone}
+              >
+                <Phone className="w-3.5 h-3.5" />
+                Call
+              </button>
               <button 
                 onClick={() => handleEmailClick(email)}
-                className="hover:text-blue-600 hover:underline transition-colors truncate"
-                title={email}
+                className="flex-1 flex items-center justify-center gap-2 py-1.5 text-xs text-blue-500 hover:text-blue-400 transition-colors bg-blue-600/10 hover:bg-blue-600/20 rounded-lg disabled:opacity-50"
+                disabled={!email}
               >
-                {email || 'No email'}
+                <span className="text-base leading-none relative -top-0.5">@</span>
+                Email
               </button>
             </div>
-            {phone && (
-              <div className="flex items-center gap-2 text-sm text-slate-600">
-                <Phone className="w-4 h-4" />
-                <button 
-                  onClick={() => handlePhoneCall(phone)}
-                  className="hover:text-green-600 hover:underline transition-colors"
-                  title="Click to call"
-                >
-                  {phone}
-                </button>
+            {hourlyRate && !isNaN(hourlyRate) && (
+              <div className="text-right shrink-0 px-2">
+                <span className="text-[10px] text-slate-500 block uppercase font-medium">Rate</span>
+                <span className="text-sm font-bold text-white">${Number(hourlyRate).toFixed(2)}<span className="text-xs text-slate-500 font-normal">/hr</span></span>
               </div>
             )}
-          </div>
-
-          {/* Specializations */}
-          <div className="mb-4">
-            <div className="flex flex-wrap gap-1">
-              {specializations.length > 0 ? (
-                specializations.slice(0, 2).map((spec, index) => (
-                  <Badge
-                    key={`spec-${index}`}
-                    variant="secondary"
-                    className="text-xs bg-slate-100 text-slate-700"
-                  >
-                    {spec}
-                  </Badge>
-                ))
-              ) : (
-                <Badge variant="outline" className="text-xs text-slate-500">
-                  No specializations
-                </Badge>
-              )}
-              {specializations.length > 2 && (
-                <Badge variant="outline" className="text-xs text-slate-500">
-                  +{specializations.length - 2} more
-                </Badge>
-              )}
-            </div>
-          </div>
-
-          {/* Status and Availability */}
-          <div className="flex items-center justify-between">
-            <Badge className={statusColors[status] || statusColors.active} variant="secondary">
-              {status === 'on_leave' ? 'On Leave' : status}
-            </Badge>
-            {availability && (
-              <Badge 
-                variant="outline" 
-                className={`text-xs ${availabilityColors[availability] || 'bg-slate-100 text-slate-700'}`}
-              >
-                <Clock className="w-3 h-3 mr-1" />
-                {availability}
-              </Badge>
-            )}
-          </div>
-
-          {/* Hourly Rate */}
-          {hourlyRate && !isNaN(hourlyRate) && (
-            <div className="mt-4 pt-4 border-t border-slate-200">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-slate-600">Hourly Rate</span>
-                <span className="text-lg font-bold text-slate-900">${Number(hourlyRate).toFixed(2)}/hr</span>
-              </div>
-            </div>
-          )}
-
-          {/* Quick Actions */}
-          <div className="flex gap-2 mt-4">
-            {phone && (
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex-1 text-xs hover:bg-green-50 hover:text-green-700 hover:border-green-300"
-                onClick={() => handlePhoneCall(phone)}
-              >
-                <Phone className="w-3 h-3 mr-1" />
-                Call
-              </Button>
-            )}
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex-1 text-xs hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300"
-              onClick={() => handleEmailClick(email)}
-            >
-              <Mail className="w-3 h-3 mr-1" />
-              Email
-            </Button>
           </div>
         </CardContent>
       </Card>

@@ -82,11 +82,11 @@ export default function ImageUpload({ onImageSelect, currentImage }) {
 
   return (
     <div className="space-y-4">
-      <Label>Equipment Image</Label>
+      <Label className="text-slate-300">Equipment Image</Label>
 
       {/* Preview - Only render when image exists and loads successfully */}
       {hasValidImage && (
-        <div className="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden border-2 border-dashed border-gray-300">
+        <div className="relative w-full h-48 bg-[#121A2F] rounded-lg overflow-hidden border-2 border-dashed border-slate-700">
           <img
             src={imageUrl}
             alt="Equipment preview"
@@ -99,7 +99,7 @@ export default function ImageUpload({ onImageSelect, currentImage }) {
           <button
             type="button"
             onClick={clearImage}
-            className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 transition-colors shadow-lg z-10"
+            className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white rounded-full p-2 transition-colors shadow-lg z-10"
           >
             <X className="w-4 h-4" />
           </button>
@@ -114,14 +114,14 @@ export default function ImageUpload({ onImageSelect, currentImage }) {
           onDrop={handleDrop}
           className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
             isDragging
-              ? "border-blue-500 bg-blue-50"
-              : "border-gray-300 bg-white hover:border-blue-400 hover:bg-blue-50"
+              ? "border-blue-500 bg-blue-900/20"
+              : "border-slate-700 bg-[#121A2F] hover:border-slate-500 hover:bg-slate-800/50"
           }`}
         >
           <div className="flex flex-col items-center gap-3">
-            <ImageIcon className="w-8 h-8 text-gray-400" />
-            <div className="text-sm text-gray-600">
-              <p className="font-medium">Drag and drop your image here</p>
+            <ImageIcon className="w-8 h-8 text-slate-500" />
+            <div className="text-sm text-slate-400">
+              <p className="font-medium text-slate-300">Drag and drop your image here</p>
               <p className="text-xs mt-1">or use the buttons below</p>
             </div>
           </div>
@@ -133,7 +133,7 @@ export default function ImageUpload({ onImageSelect, currentImage }) {
         <Button
           type="button"
           variant="outline"
-          className="flex-1 gap-2"
+          className="flex-1 gap-2 border-slate-700 bg-[#1A233A] text-slate-300 hover:bg-slate-800 hover:text-white"
           onClick={() => fileInputRef.current?.click()}
         >
           <Upload className="w-4 h-4" />
@@ -143,7 +143,7 @@ export default function ImageUpload({ onImageSelect, currentImage }) {
         <Button
           type="button"
           variant="outline"
-          className="flex-1 gap-2"
+          className="flex-1 gap-2 border-slate-700 bg-[#1A233A] text-slate-300 hover:bg-slate-800 hover:text-white"
           onClick={() => cameraInputRef.current?.click()}
         >
           <Camera className="w-4 h-4" />

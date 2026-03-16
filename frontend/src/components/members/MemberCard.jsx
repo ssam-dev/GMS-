@@ -1,6 +1,5 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Edit, Trash2, Mail, Phone, Eye } from "lucide-react";
 import { motion } from "framer-motion";
@@ -13,24 +12,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const statusColors = {
-  active: "bg-green-100 text-green-700",
-  expired: "bg-red-100 text-red-700",
-  suspended: "bg-yellow-100 text-yellow-700",
-  cancelled: "bg-gray-100 text-gray-700",
-};
-
-const membershipColors = {
-  basic: "bg-blue-100 text-blue-700",
-  premium: "bg-purple-100 text-purple-700",
-  vip: "bg-yellow-100 text-yellow-700",
-  student: "bg-green-100 text-green-700",
+  active: "text-green-500",
+  expired: "text-red-500",
+  suspended: "text-yellow-500",
+  cancelled: "text-gray-500",
 };
 
 export default function MemberCard({ member, onEdit, onDelete, onViewDetails }) {
   // Safety checks to ensure we have valid data
   if (!member) return null;
-
-  console.log('Rendering MemberCard:', member); // Debug log
 
   const handlePhoneCall = (phoneNumber) => {
     if (phoneNumber) {
@@ -49,133 +39,105 @@ export default function MemberCard({ member, onEdit, onDelete, onViewDetails }) 
   const lastName = member.last_name || '';
   const email = member.email || '';
   const phone = member.phone || '';
-  const status = member.status || 'active';
-  const membershipType = member.membership_type || 'basic';
-  const membershipStartDate = member.membership_start_date;
+  const status = member.status ? member.status.toLowerCase() : 'active';
+  const membershipType = member.membership_type || 'Basic';
   const membershipEndDate = member.membership_end_date;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      whileHover={{ y: -5 }}
-      transition={{ duration: 0.3 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.2 }}
     >
-      <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-        <CardContent className="p-6">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-semibold">
-                  {firstName[0] || 'M'}{lastName[0] || 'M'}
-                </span>
-              </div>
-              <div>
-                <h3 className="font-semibold text-slate-900">
+      <Card className="bg-[#121A2F] border-slate-800 shadow-none overflow-hidden hover:bg-[#1A233A] transition-colors relative group">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="absolute top-2 right-2 text-slate-500 hover:text-white hover:bg-slate-800 h-8 w-8 z-10">
+              <MoreHorizontal className="w-4 h-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="bg-[#1A233A] border-slate-800 text-white">
+            {onViewDetails && (
+              <DropdownMenuItem onClick={() => onViewDetails(member)} className="hover:bg-slate-800 focus:bg-slate-800 cursor-pointer">
+                <Eye className="w-4 h-4 mr-2" />
+                View Details
+              </DropdownMenuItem>
+            )}
+            <DropdownMenuItem onClick={() => onEdit(member)} className="hover:bg-slate-800 focus:bg-slate-800 cursor-pointer">
+              <Edit className="w-4 h-4 mr-2" />
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onDelete(member.id || member._id)} className="text-red-500 hover:bg-slate-800 focus:bg-slate-800 cursor-pointer">
+              <Trash2 className="w-4 h-4 mr-2" />
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <CardContent className="p-4">
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 bg-blue-600/20 rounded-full flex items-center justify-center shrink-0">
+              <span className="text-blue-500 font-semibold text-sm">
+                {firstName[0] || 'M'}{lastName[0] || 'M'}
+              </span>
+            </div>
+            
+            <div className="flex-1 min-w-0 pr-6">
+              <div className="flex items-center gap-2 mb-0.5">
+                <h3 className="font-medium text-white text-sm truncate">
                   {firstName} {lastName}
                 </h3>
-                <p className="text-sm text-slate-500">
-                  {membershipStartDate 
-                    ? `Member since ${format(new Date(membershipStartDate), 'MMM yyyy')}` 
-                    : 'New member'
-                  }
-                </p>
+                <span className={`text-[10px] uppercase font-bold tracking-wider ${statusColors[status] || statusColors.active}`}>
+                  {status}
+                </span>
               </div>
-            </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <MoreHorizontal className="w-4 h-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                {onViewDetails && (
-                  <DropdownMenuItem onClick={() => onViewDetails(member)}>
-                    <Eye className="w-4 h-4 mr-2" />
-                    View Details
-                  </DropdownMenuItem>
+              
+              <p className="text-xs text-slate-400 capitalize mb-2">
+                {membershipType} Member
+              </p>
+              
+              <div className="space-y-1 mt-3">
+                {email && (
+                  <div className="flex items-center gap-2 text-xs text-slate-400">
+                    <Mail className="w-3.5 h-3.5" />
+                    <span className="truncate">{email}</span>
+                  </div>
                 )}
-                <DropdownMenuItem onClick={() => onEdit(member)}>
-                  <Edit className="w-4 h-4 mr-2" />
-                  Edit
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => onDelete(member._id)} className="text-red-600">
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  Delete
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 text-sm text-slate-600">
-              <Mail className="w-4 h-4" />
-              <button 
-                onClick={() => handleEmailClick(email)}
-                className="hover:text-blue-600 hover:underline transition-colors truncate"
-                title={email}
-              >
-                {email || 'No email'}
-              </button>
-            </div>
-            {phone && (
-              <div className="flex items-center gap-2 text-sm text-slate-600">
-                <Phone className="w-4 h-4" />
-                <button 
-                  onClick={() => handlePhoneCall(phone)}
-                  className="hover:text-green-600 hover:underline transition-colors flex items-center gap-1"
-                  title="Click to call"
-                >
-                  {phone}
-                  <span className="text-xs text-green-600 opacity-0 group-hover:opacity-100 transition-opacity">
-                    📞
-                  </span>
-                </button>
+                {phone && (
+                  <div className="flex items-center gap-2 text-xs text-slate-400">
+                    <Phone className="w-3.5 h-3.5" />
+                    <span>{phone}</span>
+                  </div>
+                )}
               </div>
-            )}
+              
+              <div className="mt-3 inline-block">
+                <div className="px-2 py-0.5 bg-[#1A233A] border border-slate-800 text-xs text-slate-400 rounded-md">
+                   {membershipType} 
+                   {membershipEndDate ? ` (Expires ${format(new Date(membershipEndDate), 'MMM yyyy')})` : ''}
+                </div>
+              </div>
+            </div>
           </div>
-
-          <div className="flex items-center justify-between mt-4">
-            <Badge className={statusColors[status] || statusColors.active}>
-              {status}
-            </Badge>
-            <Badge className={membershipColors[membershipType] || membershipColors.basic}>
-              {membershipType}
-            </Badge>
-          </div>
-
-          <div className="mt-4 text-sm text-slate-500">
-            <p>
-              {membershipEndDate 
-                ? `Expires: ${format(new Date(membershipEndDate), 'MMM d, yyyy')}` 
-                : 'No expiry date'
-              }
-            </p>
-          </div>
-
-          {/* Quick Action Buttons */}
-          <div className="flex gap-2 mt-4">
-            {phone && (
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex-1 text-xs hover:bg-green-50 hover:text-green-700 hover:border-green-300"
-                onClick={() => handlePhoneCall(phone)}
-              >
-                <Phone className="w-3 h-3 mr-1" />
-                Call
-              </Button>
-            )}
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex-1 text-xs hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300"
-              onClick={() => handleEmailClick(email)}
+          
+          <div className="flex items-center justify-between gap-2 mt-4 pt-4 border-t border-slate-800/50">
+            <button 
+              onClick={() => handlePhoneCall(phone)}
+              className="flex-1 flex items-center justify-center gap-2 py-1.5 text-xs text-blue-500 hover:text-blue-400 transition-colors bg-blue-600/10 hover:bg-blue-600/20 rounded-lg disabled:opacity-50"
+              disabled={!phone}
             >
-              <Mail className="w-3 h-3 mr-1" />
+              <Phone className="w-3.5 h-3.5" />
+              Call
+            </button>
+            <button 
+              onClick={() => handleEmailClick(email)}
+              className="flex-1 flex items-center justify-center gap-2 py-1.5 text-xs text-blue-500 hover:text-blue-400 transition-colors bg-blue-600/10 hover:bg-blue-600/20 rounded-lg disabled:opacity-50"
+              disabled={!email}
+            >
+              <span className="text-base leading-none relative -top-0.5">@</span>
               Email
-            </Button>
+            </button>
           </div>
         </CardContent>
       </Card>

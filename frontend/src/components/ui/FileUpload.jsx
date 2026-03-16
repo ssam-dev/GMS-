@@ -126,39 +126,39 @@ export default function FileUpload({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
           >
-            <Card className="p-4 bg-blue-50 border-blue-200">
+            <Card className="p-4 bg-[#121A2F]/50 border-slate-700">
               <div className="space-y-3">
                 {preview && (
                   <div className="flex justify-center">
                     <img
                       src={preview}
                       alt="Preview"
-                      className="max-w-48 max-h-48 rounded-lg object-cover border-2 border-blue-300"
+                      className="max-w-48 max-h-48 rounded-lg object-cover border-2 border-slate-700"
                     />
                   </div>
                 )}
                 <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <p className="font-medium text-slate-900 truncate">
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-white truncate">
                       {selectedFile.name}
                     </p>
-                    <p className="text-sm text-slate-500">
+                    <p className="text-sm text-slate-400">
                       {(selectedFile.size / 1024).toFixed(2)} KB
                     </p>
                   </div>
                     {uploadStatus === 'uploading' && (
-                      <div className="flex-1 ml-3">
-                        <div className="w-full bg-slate-200 rounded-full h-2">
+                      <div className="flex-1 ml-3 home-stats-progress">
+                        <div className="w-full bg-slate-800 rounded-full h-2">
                           <div 
                             className="bg-blue-600 h-2 rounded-full transition-all duration-300"
                             style={{ width: `${progress}%` }}
                           ></div>
                         </div>
-                        <p className="text-xs text-slate-500 mt-1">{progress}% uploaded</p>
+                        <p className="text-xs text-slate-400 mt-1">{progress}% uploaded</p>
                       </div>
                     )}
                     {uploadStatus === 'success' && (
-                      <Badge className="bg-green-100 text-green-700 border-green-200">
+                      <Badge className="bg-green-900/30 text-green-400 border-green-800/50">
                         ✓ Uploaded
                       </Badge>
                     )}
@@ -166,7 +166,7 @@ export default function FileUpload({
                     variant="ghost"
                     size="icon"
                     onClick={handleRemove}
-                    className="hover:bg-red-100 hover:text-red-600"
+                    className="text-slate-400 hover:bg-red-900/30 hover:text-red-400"
                   >
                     <X className="w-4 h-4" />
                   </Button>
@@ -181,23 +181,23 @@ export default function FileUpload({
             exit={{ opacity: 0 }}
           >
             <Card
-              className="border-2 border-dashed border-slate-300 hover:border-blue-500 transition-colors cursor-pointer bg-slate-50 hover:bg-blue-50"
+              className="border-2 border-dashed border-slate-700 hover:border-blue-500 transition-all cursor-pointer bg-[#121A2F]/50 hover:bg-[#1A233A]/50 group"
               onClick={handleClick}
               onDragOver={handleDragOver}
               onDrop={handleDrop}
             >
               <div className="p-8 text-center space-y-4">
                 <div className="flex justify-center">
-                  <div className="p-3 bg-blue-100 rounded-lg">
-                    <ImageIcon className="w-6 h-6 text-blue-600" />
+                  <div className="p-3 bg-blue-900/20 rounded-lg group-hover:bg-blue-900/40 transition-colors">
+                    <ImageIcon className="w-6 h-6 text-blue-400" />
                   </div>
                 </div>
                 <div>
-                  <p className="font-semibold text-slate-900">{label}</p>
-                  <p className="text-sm text-slate-500 mt-1">
+                  <p className="font-semibold text-white">{label}</p>
+                  <p className="text-sm text-slate-400 mt-1">
                     Drag and drop your file here or click to browse
                   </p>
-                  <p className="text-xs text-slate-400 mt-2">
+                  <p className="text-xs text-slate-500 mt-2">
                     Max size: {(maxSize / (1024 * 1024)).toFixed(1)}MB
                   </p>
                 </div>
@@ -207,6 +207,7 @@ export default function FileUpload({
                       type="button"
                       variant="outline"
                       size="sm"
+                      className="border-slate-700 bg-[#121A2F] text-slate-300 hover:bg-slate-800 hover:text-white"
                       onClick={(e) => {
                         e.stopPropagation();
                         fileInputRef.current?.click();
@@ -219,6 +220,7 @@ export default function FileUpload({
                       type="button"
                       variant="outline"
                       size="sm"
+                      className="border-slate-700 bg-[#121A2F] text-slate-300 hover:bg-slate-800 hover:text-white"
                       onClick={(e) => {
                         e.stopPropagation();
                         cameraInputRef.current?.click();

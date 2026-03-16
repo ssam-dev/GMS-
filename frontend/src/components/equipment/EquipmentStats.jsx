@@ -127,27 +127,26 @@ export default function EquipmentStats({ isLoading: parentLoading }) {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-6">
       {statCards.map((stat, index) => (
         <motion.div
           key={stat.title}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.1 }}
-          whileHover={{ y: -5 }}
+          transition={{ delay: index * 0.05 }}
         >
-          <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-            <CardContent className="p-4">
+          <Card className="bg-[#121A2F] border-slate-800 shadow-none hover:bg-[#1A233A] transition-all duration-200 h-full">
+            <CardContent className="p-4 flex flex-col justify-center h-full">
               <div className="flex items-center justify-between">
                 <div className="flex-1">
-                  <p className="text-xs font-medium text-slate-500 mb-1">{stat.title}</p>
+                  <p className="text-xs font-medium text-slate-400 mb-1">{stat.title}</p>
                   {isLoading || parentLoading ? (
-                    <Skeleton className="h-6 w-12" />
+                    <Skeleton className="h-6 w-12 bg-slate-800" />
                   ) : (
-                    <p className="text-lg font-bold text-slate-900">{stat.value}</p>
+                    <p className="text-lg font-bold text-white">{stat.value}</p>
                   )}
                 </div>
-                <div className={`p-2 rounded-lg bg-gradient-to-r ${stat.gradient} shadow-md`}>
+                <div className={`p-2 rounded-lg bg-gradient-to-r ${stat.gradient} shadow-none bg-opacity-10`}>
                   <stat.icon className="w-4 h-4 text-white" />
                 </div>
               </div>

@@ -11,7 +11,8 @@ import {
   Menu,
   X,
   Settings,
-  LogOut
+  LogOut,
+  Bell
 } from "lucide-react";
 import {
   Sidebar,
@@ -35,16 +36,16 @@ import {
     if (!openMobile) return null;
     return (
       <div className="md:hidden fixed inset-0 z-50 flex">
-        <div className="absolute inset-0 bg-black/40" onClick={() => setOpenMobile(false)} />
-        <aside className="relative w-72 max-w-full bg-white p-4 shadow-xl overflow-auto transform transition-transform duration-200">
-          <SidebarHeader className="border-b border-slate-200 pb-4">
+        <div className="absolute inset-0 bg-black/60" onClick={() => setOpenMobile(false)} />
+        <aside className="relative w-72 max-w-full bg-[#121A2F] p-4 shadow-xl overflow-auto transform transition-transform duration-200 border-r border-slate-800">
+          <SidebarHeader className="border-b border-slate-800 pb-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg">
                 <Dumbbell className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="font-bold text-slate-900 text-lg">GMS</h2>
-                <p className="text-xs text-slate-500">Gym Management System</p>
+                <h2 className="font-bold text-white text-lg">GMS</h2>
+                <p className="text-xs text-slate-400">Gym Management System</p>
               </div>
             </div>
           </SidebarHeader>
@@ -56,7 +57,7 @@ import {
                 <SidebarMenu className="space-y-1">
                   {navigationItems.map((item) => (
                     <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild className={`hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 rounded-xl`}>
+                      <SidebarMenuButton asChild className={`hover:bg-blue-600/10 hover:text-blue-500 transition-all duration-200 rounded-xl text-slate-300`}>
                         <Link to={item.url} className="flex items-center gap-3 px-4 py-3" onClick={() => setOpenMobile(false)}>
                           <item.icon className="w-5 h-5" />
                           <span className="font-medium">{item.title}</span>
@@ -69,28 +70,28 @@ import {
             </SidebarGroup>
           </SidebarContent>
 
-          <SidebarFooter className="border-t border-slate-200 p-4">
+          <SidebarFooter className="border-t border-slate-800 p-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="w-full justify-start p-0 h-auto hover:bg-slate-50" onClick={() => setOpenMobile(false)}>
+                <Button variant="ghost" className="w-full justify-start p-0 h-auto hover:bg-slate-800/50" onClick={() => setOpenMobile(false)}>
                   <div className="flex items-center gap-3 w-full">
-                    <div className="w-10 h-10 bg-gradient-to-br from-slate-100 to-slate-200 rounded-full flex items-center justify-center">
-                      <span className="text-slate-600 font-semibold text-sm">{getInitials(currentUser)}</span>
+                    <div className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center">
+                      <span className="text-slate-300 font-semibold text-sm">{getInitials(currentUser)}</span>
                     </div>
                     <div className="flex-1 min-w-0 text-left">
-                      <p className="font-semibold text-slate-900 text-sm truncate">{currentUser?.full_name || "Admin"}</p>
-                      <p className="text-xs text-slate-500 truncate">{currentUser?.email || "Gym Manager"}</p>
+                      <p className="font-semibold text-white text-sm truncate">{currentUser?.full_name || "Admin"}</p>
+                      <p className="text-xs text-slate-400 truncate">{currentUser?.email || "Gym Manager"}</p>
                     </div>
                   </div>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem onClick={() => setOpenMobile(false)}>
+              <DropdownMenuContent align="end" className="w-56 bg-[#121A2F] border-slate-800 text-white">
+                <DropdownMenuItem onClick={() => setOpenMobile(false)} className="hover:bg-slate-800 focus:bg-slate-800">
                   <Settings className="w-4 h-4 mr-2" />
                   Profile Settings
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => { setOpenMobile(false); handleLogout(); }} className="text-red-600">
+                <DropdownMenuSeparator className="bg-slate-800" />
+                <DropdownMenuItem onClick={() => { setOpenMobile(false); handleLogout(); }} className="text-red-500 hover:bg-slate-800 focus:bg-slate-800">
                   <LogOut className="w-4 h-4 mr-2" />
                   Logout
                 </DropdownMenuItem>
@@ -122,12 +123,6 @@ const navigationItems = [
     url: createPageUrl("Members"),
     icon: Users,
   },
-  // Removed "Classes" item as per instructions
-  // {
-  //   title: "Classes",
-  //   url: createPageUrl("Classes"),
-  //   icon: Calendar,
-  // },
   {
     title: "Trainers",
     url: createPageUrl("Trainers"),
@@ -178,91 +173,80 @@ export default function Layout({ children, currentPageName }) {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gradient-to-br from-slate-50 to-blue-50">
-        <style>
-          {`
-            :root {
-              --primary: 15 23 42;
-              --primary-foreground: 248 250 252;
-              --secondary: 30 41 59;
-              --accent: 37 99 235;
-              --muted: 241 245 249;
-              --card: 255 255 255;
-              --border: 226 232 240;
-            }
-          `}
-        </style>
+      <div className="min-h-screen flex w-full bg-[#0A0F1C] text-white overflow-hidden">
         
-        <Sidebar className="border-r border-slate-200 bg-white/95 backdrop-blur-md">
-          <SidebarHeader className="border-b border-slate-200 p-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
-                <Dumbbell className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h2 className="font-bold text-slate-900 text-lg">GMS</h2>
-                <p className="text-xs text-slate-500">Gym Management System</p>
+        <Sidebar className="border-r border-slate-800 bg-[#121A2F]">
+          <SidebarHeader className="border-b border-slate-800 p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                  <Dumbbell className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h2 className="font-bold text-white text-lg">GMS</h2>
+                  <p className="text-[10px] uppercase tracking-wider text-slate-400">Gym Manager</p>
+                </div>
               </div>
             </div>
           </SidebarHeader>
           
           <SidebarContent className="p-4">
             <SidebarGroup>
-              <SidebarGroupLabel className="text-xs font-semibold text-slate-500 uppercase tracking-wider px-3 py-2">
-                Navigation
-              </SidebarGroupLabel>
               <SidebarGroupContent>
-                <SidebarMenu className="space-y-1">
-                  {navigationItems.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton 
-                        asChild 
-                        className={`hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 rounded-xl ${
-                          location.pathname === item.url 
-                            ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' 
-                            : 'text-slate-700'
-                        }`}
-                      >
-                        <Link to={item.url} className="flex items-center gap-3 px-4 py-3">
-                          <item.icon className="w-5 h-5" />
-                          <span className="font-medium">{item.title}</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
+                <SidebarMenu className="space-y-2">
+                  {navigationItems.map((item) => {
+                    const isActive = location.pathname.includes(item.url);
+                    return (
+                      <SidebarMenuItem key={item.title}>
+                        <SidebarMenuButton 
+                          asChild 
+                          className={`hover:bg-blue-600/10 hover:text-blue-500 transition-all duration-200 rounded-xl ${
+                            isActive 
+                              ? 'bg-blue-600/10 text-blue-500' 
+                              : 'text-slate-400'
+                          }`}
+                        >
+                          <Link to={item.url} className="flex items-center gap-3 px-4 py-3">
+                            <item.icon className={`w-5 h-5 ${isActive ? "text-blue-500" : "text-slate-500"}`} />
+                            <span className="font-medium text-sm">{item.title}</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    );
+                  })}
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
           </SidebarContent>
 
-          <SidebarFooter className="border-t border-slate-200 p-6">
+          <SidebarFooter className="border-t border-slate-800 p-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="w-full justify-start p-0 h-auto hover:bg-slate-50">
+                <Button variant="ghost" className="w-full justify-start p-2 h-auto hover:bg-slate-800/50 rounded-xl">
                   <div className="flex items-center gap-3 w-full">
-                    <div className="w-10 h-10 bg-gradient-to-br from-slate-100 to-slate-200 rounded-full flex items-center justify-center">
-                      <span className="text-slate-600 font-semibold text-sm">
+                    <div className="w-10 h-10 bg-[#0A0F1C] border border-slate-800 rounded-full flex items-center justify-center">
+                      <span className="text-slate-400 font-semibold text-sm">
                         {getInitials(currentUser)}
                       </span>
                     </div>
                     <div className="flex-1 min-w-0 text-left">
-                      <p className="font-semibold text-slate-900 text-sm truncate">
-                        {currentUser?.full_name || "Admin"}
+                      <p className="font-semibold text-white text-sm truncate">
+                        {currentUser?.full_name || "Admin User"}
                       </p>
                       <p className="text-xs text-slate-500 truncate">
-                        {currentUser?.email || "Gym Manager"}
+                        {currentUser?.email || "admin@gymsystem.com"}
                       </p>
                     </div>
                   </div>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem onClick={() => setShowProfileModal(true)}>
+              <DropdownMenuContent align="end" className="w-56 bg-[#121A2F] border-slate-800 text-white">
+                <DropdownMenuItem onClick={() => setShowProfileModal(true)} className="hover:bg-slate-800 focus:bg-slate-800 cursor-pointer">
                   <Settings className="w-4 h-4 mr-2" />
                   Profile Settings
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout} className="text-red-600">
+                <DropdownMenuSeparator className="bg-slate-800" />
+                <DropdownMenuItem onClick={handleLogout} className="text-red-500 hover:bg-slate-800 focus:bg-slate-800 cursor-pointer">
                   <LogOut className="w-4 h-4 mr-2" />
                   Logout
                 </DropdownMenuItem>
@@ -271,16 +255,24 @@ export default function Layout({ children, currentPageName }) {
           </SidebarFooter>
         </Sidebar>
 
-        <main className="flex-1 flex flex-col">
-          <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 px-6 py-4 md:hidden">
+        <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
+          <header className="bg-[#121A2F] border-b border-slate-800 px-6 py-4 flex items-center justify-between sticky top-0 z-10">
             <div className="flex items-center gap-4">
-              <SidebarTrigger className="hover:bg-slate-100 p-2 rounded-lg transition-colors duration-200" />
-              <h1 className="text-xl font-bold text-slate-900">GMS</h1>
+              <SidebarTrigger className="hover:bg-slate-800 text-slate-300 p-2 rounded-lg transition-colors duration-200" />
+              <h1 className="text-xl font-semibold text-white md:hidden">GMS</h1>
+            </div>
+            <div className="flex items-center gap-4">
+              <button className="text-slate-400 hover:text-white transition-colors relative">
+                <Bell className="w-5 h-5" />
+                <span className="absolute top-0 right-0 w-2 h-2 bg-blue-500 rounded-full"></span>
+              </button>
             </div>
           </header>
 
-          <div className="flex-1 overflow-auto">
-            {children}
+          <div className="flex-1 overflow-auto bg-[#0A0F1C] p-4 sm:p-6 md:p-8">
+            <div className="max-w-7xl mx-auto h-full">
+              {children}
+            </div>
           </div>
         </main>
 

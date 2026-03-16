@@ -143,265 +143,277 @@ export default function EquipmentForm({ equipment, onSubmit, onCancel }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50"
     >
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
-        className="w-full max-w-4xl max-h-[90vh] overflow-y-auto"
+        className="w-full max-w-4xl max-h-[90vh] overflow-y-auto custom-scrollbar"
       >
-        <Card className="bg-white border-0 shadow-2xl">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-xl font-bold text-slate-900">
+        <Card className="bg-[#1A233A] border-slate-800 shadow-2xl">
+          <CardHeader className="flex flex-row items-center justify-between border-b border-slate-800/50 pb-4">
+            <CardTitle className="text-xl font-bold text-white">
               {equipment ? "Edit Equipment" : "Add New Equipment"}
             </CardTitle>
-            <Button variant="ghost" size="icon" onClick={onCancel}>
-              <X className="w-4 h-4" />
+            <Button variant="ghost" size="icon" onClick={onCancel} className="text-slate-400 hover:text-white hover:bg-slate-800">
+              <X className="w-5 h-5" />
             </Button>
           </CardHeader>
           <CardContent className="p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Basic Information Section */}
               <div className="space-y-4">
-                <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide border-b border-slate-200 pb-2">
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide border-b border-slate-800/50 pb-2">
                   Basic Information
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="name">Equipment Name *</Label>
-                  <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => handleChange("name", e.target.value)}
-                    className={errors.name ? "border-red-500" : ""}
-                  />
-                  {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
-                </div>
-                <div>
-                  <Label htmlFor="category">Category *</Label>
-                  <Select
-                    value={formData.category}
-                    onValueChange={(value) => handleChange("category", value)}
-                  >
-                    <SelectTrigger className={errors.category ? "border-red-500" : ""}>
-                      <SelectValue placeholder="Select category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="cardio">Cardio</SelectItem>
-                      <SelectItem value="strength">Strength</SelectItem>
-                      <SelectItem value="free_weights">Free Weights</SelectItem>
-                      <SelectItem value="functional">Functional</SelectItem>
-                      <SelectItem value="accessories">Accessories</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  {errors.category && <p className="text-red-500 text-sm mt-1">{errors.category}</p>}
-                </div>
+                  <div>
+                    <Label htmlFor="name" className="text-slate-300">Equipment Name *</Label>
+                    <Input
+                      id="name"
+                      value={formData.name}
+                      onChange={(e) => handleChange("name", e.target.value)}
+                      className={`bg-[#121A2F] border-slate-700 text-white placeholder:text-slate-500 ${errors.name ? "border-red-500" : ""}`}
+                    />
+                    {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                  </div>
+                  <div>
+                    <Label htmlFor="category" className="text-slate-300">Category *</Label>
+                    <Select
+                      value={formData.category}
+                      onValueChange={(value) => handleChange("category", value)}
+                    >
+                      <SelectTrigger className={`bg-[#121A2F] border-slate-700 text-white ${errors.category ? "border-red-500" : ""}`}>
+                        <SelectValue placeholder="Select category" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#1A233A] border-slate-700 text-white">
+                        <SelectItem value="cardio" className="hover:bg-slate-800">Cardio</SelectItem>
+                        <SelectItem value="strength" className="hover:bg-slate-800">Strength</SelectItem>
+                        <SelectItem value="free_weights" className="hover:bg-slate-800">Free Weights</SelectItem>
+                        <SelectItem value="functional" className="hover:bg-slate-800">Functional</SelectItem>
+                        <SelectItem value="accessories" className="hover:bg-slate-800">Accessories</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {errors.category && <p className="text-red-500 text-sm mt-1">{errors.category}</p>}
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="brand">Brand</Label>
-                  <Input
-                    id="brand"
-                    value={formData.brand}
-                    onChange={(e) => handleChange("brand", e.target.value)}
-                  />
+                  <div>
+                    <Label htmlFor="brand" className="text-slate-300">Brand</Label>
+                    <Input
+                      id="brand"
+                      value={formData.brand}
+                      onChange={(e) => handleChange("brand", e.target.value)}
+                      className="bg-[#121A2F] border-slate-700 text-white placeholder:text-slate-500"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="model" className="text-slate-300">Model</Label>
+                    <Input
+                      id="model"
+                      value={formData.model}
+                      onChange={(e) => handleChange("model", e.target.value)}
+                      className="bg-[#121A2F] border-slate-700 text-white placeholder:text-slate-500"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <Label htmlFor="model">Model</Label>
-                  <Input
-                    id="model"
-                    value={formData.model}
-                    onChange={(e) => handleChange("model", e.target.value)}
-                  />
-                </div>
-              </div>
 
-              {/* Serial Number and Location */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="serial_number">Serial Number</Label>
-                  <Input
-                    id="serial_number"
-                    value={formData.serial_number}
-                    onChange={(e) => handleChange("serial_number", e.target.value)}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="location">Location</Label>
-                  <Input
-                    id="location"
-                    value={formData.location}
-                    onChange={(e) => handleChange("location", e.target.value)}
-                    placeholder="e.g., Main Floor, Cardio Zone"
-                  />
-                </div>
+                {/* Serial Number and Location */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="serial_number" className="text-slate-300">Serial Number</Label>
+                    <Input
+                      id="serial_number"
+                      value={formData.serial_number}
+                      onChange={(e) => handleChange("serial_number", e.target.value)}
+                      className="bg-[#121A2F] border-slate-700 text-white placeholder:text-slate-500"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="location" className="text-slate-300">Location</Label>
+                    <Input
+                      id="location"
+                      value={formData.location}
+                      onChange={(e) => handleChange("location", e.target.value)}
+                      placeholder="e.g., Main Floor, Cardio Zone"
+                      className="bg-[#121A2F] border-slate-700 text-white placeholder:text-slate-500"
+                    />
+                  </div>
                 </div>
               </div>
 
               {/* Purchase & Warranty Section */}
-              <div className="space-y-4 pt-4 border-t border-slate-200">
-                <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+              <div className="space-y-4 pt-4 border-t border-slate-800/50">
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">
                   Purchase & Warranty Information
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <Label htmlFor="purchase_date">Purchase Date</Label>
-                  <Input
-                    id="purchase_date"
-                    type="date"
-                    value={formData.purchase_date}
-                    onChange={(e) => handleChange("purchase_date", e.target.value)}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="purchase_price">Purchase Price ($)</Label>
-                  <Input
-                    id="purchase_price"
-                    type="number"
-                    step="0.01"
-                    value={formData.purchase_price}
-                    onChange={(e) => handleChange("purchase_price", e.target.value)}
-                    className={errors.purchase_price ? "border-red-500" : ""}
-                  />
-                  {errors.purchase_price && <p className="text-red-500 text-sm mt-1">{errors.purchase_price}</p>}
-                </div>
-                <div>
-                  <Label htmlFor="warranty_end_date">Warranty End Date</Label>
-                  <Input
-                    id="warranty_end_date"
-                    type="date"
-                    value={formData.warranty_end_date}
-                    onChange={(e) => handleChange("warranty_end_date", e.target.value)}
-                  />
-                </div>
+                  <div>
+                    <Label htmlFor="purchase_date" className="text-slate-300">Purchase Date</Label>
+                    <Input
+                      id="purchase_date"
+                      type="date"
+                      value={formData.purchase_date}
+                      onChange={(e) => handleChange("purchase_date", e.target.value)}
+                      className="bg-[#121A2F] border-slate-700 text-white placeholder:text-slate-500 w-full hover:cursor-text"
+                      style={{ colorScheme: 'dark' }}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="purchase_price" className="text-slate-300">Purchase Price ($)</Label>
+                    <Input
+                      id="purchase_price"
+                      type="number"
+                      step="0.01"
+                      value={formData.purchase_price}
+                      onChange={(e) => handleChange("purchase_price", e.target.value)}
+                      className={`bg-[#121A2F] border-slate-700 text-white placeholder:text-slate-500 ${errors.purchase_price ? "border-red-500" : ""}`}
+                    />
+                    {errors.purchase_price && <p className="text-red-500 text-sm mt-1">{errors.purchase_price}</p>}
+                  </div>
+                  <div>
+                    <Label htmlFor="warranty_end_date" className="text-slate-300">Warranty End Date</Label>
+                    <Input
+                      id="warranty_end_date"
+                      type="date"
+                      value={formData.warranty_end_date}
+                      onChange={(e) => handleChange("warranty_end_date", e.target.value)}
+                      className="bg-[#121A2F] border-slate-700 text-white placeholder:text-slate-500 w-full hover:cursor-text"
+                      style={{ colorScheme: 'dark' }}
+                    />
+                  </div>
                 </div>
               </div>
 
               {/* Status & Availability Section */}
-              <div className="space-y-4 pt-4 border-t border-slate-200">
-                <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+              <div className="space-y-4 pt-4 border-t border-slate-800/50">
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">
                   Status & Availability
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <Label htmlFor="condition">Condition</Label>
-                  <Select
-                    value={formData.condition}
-                    onValueChange={(value) => handleChange("condition", value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select condition" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="new">🆕 New</SelectItem>
-                      <SelectItem value="good">✅ Good</SelectItem>
-                      <SelectItem value="needs_repair">⚠️ Needs Repair</SelectItem>
-                      <SelectItem value="broken">❌ Broken</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label htmlFor="status">Status</Label>
-                  <Select
-                    value={formData.status}
-                    onValueChange={(value) => handleChange("status", value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="operational">🟢 Operational</SelectItem>
-                      <SelectItem value="maintenance">🔧 Maintenance</SelectItem>
-                      <SelectItem value="broken">🔴 Broken</SelectItem>
-                      <SelectItem value="retired">⚫ Retired</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label htmlFor="quantity">Quantity</Label>
-                  <Input
-                    id="quantity"
-                    type="number"
-                    min="1"
-                    value={formData.quantity}
-                    onChange={(e) => handleChange("quantity", e.target.value)}
-                    className={errors.quantity ? "border-red-500" : ""}
-                  />
-                  {errors.quantity && <p className="text-red-500 text-sm mt-1">{errors.quantity}</p>}
-                </div>
+                  <div>
+                    <Label htmlFor="condition" className="text-slate-300">Condition</Label>
+                    <Select
+                      value={formData.condition}
+                      onValueChange={(value) => handleChange("condition", value)}
+                    >
+                      <SelectTrigger className="bg-[#121A2F] border-slate-700 text-white">
+                        <SelectValue placeholder="Select condition" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#1A233A] border-slate-700 text-white">
+                        <SelectItem value="new" className="hover:bg-slate-800">🆕 New</SelectItem>
+                        <SelectItem value="good" className="hover:bg-slate-800">✅ Good</SelectItem>
+                        <SelectItem value="needs_repair" className="hover:bg-slate-800">⚠️ Needs Repair</SelectItem>
+                        <SelectItem value="broken" className="hover:bg-slate-800">❌ Broken</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="status" className="text-slate-300">Status</Label>
+                    <Select
+                      value={formData.status}
+                      onValueChange={(value) => handleChange("status", value)}
+                    >
+                      <SelectTrigger className="bg-[#121A2F] border-slate-700 text-white">
+                        <SelectValue placeholder="Select status" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#1A233A] border-slate-700 text-white">
+                        <SelectItem value="operational" className="hover:bg-slate-800">🟢 Operational</SelectItem>
+                        <SelectItem value="maintenance" className="hover:bg-slate-800">🔧 Maintenance</SelectItem>
+                        <SelectItem value="broken" className="hover:bg-slate-800">🔴 Broken</SelectItem>
+                        <SelectItem value="retired" className="hover:bg-slate-800">⚫ Retired</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="quantity" className="text-slate-300">Quantity</Label>
+                    <Input
+                      id="quantity"
+                      type="number"
+                      min="1"
+                      value={formData.quantity}
+                      onChange={(e) => handleChange("quantity", e.target.value)}
+                      className={`bg-[#121A2F] border-slate-700 text-white placeholder:text-slate-500 ${errors.quantity ? "border-red-500" : ""}`}
+                    />
+                    {errors.quantity && <p className="text-red-500 text-sm mt-1">{errors.quantity}</p>}
+                  </div>
                 </div>
               </div>
 
               {/* Maintenance Section */}
-              <div className="space-y-4 pt-4 border-t border-slate-200">
-                <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+              <div className="space-y-4 pt-4 border-t border-slate-800/50">
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">
                   Maintenance Schedule
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="last_maintenance_date">Last Maintenance Date</Label>
-                  <Input
-                    id="last_maintenance_date"
-                    type="date"
-                    value={formData.last_maintenance_date}
-                    onChange={(e) => handleChange("last_maintenance_date", e.target.value)}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="next_maintenance_date">Next Maintenance Date</Label>
-                  <Input
-                    id="next_maintenance_date"
-                    type="date"
-                    value={formData.next_maintenance_date}
-                    onChange={(e) => handleChange("next_maintenance_date", e.target.value)}
-                  />
-                  <p className="text-xs text-slate-500 mt-1">Recommended: Schedule next maintenance</p>
-                </div>
+                  <div>
+                    <Label htmlFor="last_maintenance_date" className="text-slate-300">Last Maintenance Date</Label>
+                    <Input
+                      id="last_maintenance_date"
+                      type="date"
+                      value={formData.last_maintenance_date}
+                      onChange={(e) => handleChange("last_maintenance_date", e.target.value)}
+                      className="bg-[#121A2F] border-slate-700 text-white placeholder:text-slate-500 w-full hover:cursor-text"
+                      style={{ colorScheme: 'dark' }}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="next_maintenance_date" className="text-slate-300">Next Maintenance Date</Label>
+                    <Input
+                      id="next_maintenance_date"
+                      type="date"
+                      value={formData.next_maintenance_date}
+                      onChange={(e) => handleChange("next_maintenance_date", e.target.value)}
+                      className="bg-[#121A2F] border-slate-700 text-white placeholder:text-slate-500 w-full hover:cursor-text"
+                      style={{ colorScheme: 'dark' }}
+                    />
+                    <p className="text-xs text-slate-500 mt-1">Recommended: Schedule next maintenance</p>
+                  </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="maintenance_notes">Maintenance Notes</Label>
+                  <Label htmlFor="maintenance_notes" className="text-slate-300">Maintenance Notes</Label>
                   <Textarea
                     id="maintenance_notes"
                     value={formData.maintenance_notes}
                     onChange={(e) => handleChange("maintenance_notes", e.target.value)}
                     placeholder="Maintenance history, issues, repairs, parts replaced..."
-                    className="h-24"
+                    className="h-24 bg-[#121A2F] border-slate-700 text-white placeholder:text-slate-600"
                   />
                 </div>
               </div>
 
               {/* Additional Information Section */}
-              <div className="space-y-4 pt-4 border-t border-slate-200">
-                <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+              <div className="space-y-4 pt-4 border-t border-slate-800/50">
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">
                   Additional Information
                 </h3>
 
-              <ImageUpload 
-                onImageSelect={setImageFile}
-                currentImage={equipment?.image_path ? getFileUrl(equipment.image_path) : null}
-              />
-
-              <div>
-                <Label htmlFor="description">Equipment Description</Label>
-                <Textarea
-                  id="description"
-                  value={formData.description}
-                  onChange={(e) => handleChange("description", e.target.value)}
-                  placeholder="Detailed description, features, specifications, usage instructions..."
-                  className="h-32"
+                <ImageUpload 
+                  onImageSelect={setImageFile}
+                  currentImage={equipment?.image_path ? getFileUrl(equipment.image_path) : null}
                 />
-              </div>
+
+                <div>
+                  <Label htmlFor="description" className="text-slate-300">Equipment Description</Label>
+                  <Textarea
+                    id="description"
+                    value={formData.description}
+                    onChange={(e) => handleChange("description", e.target.value)}
+                    placeholder="Detailed description, features, specifications, usage instructions..."
+                    className="h-32 bg-[#121A2F] border-slate-700 text-white placeholder:text-slate-600"
+                  />
+                </div>
               </div>
 
               {/* Form Actions */}
-              <div className="flex justify-end gap-3 pt-4">
-                <Button type="button" variant="outline" onClick={onCancel}>
+              <div className="flex justify-end gap-3 pt-4 border-t border-slate-800/50 mt-6">
+                <Button type="button" variant="outline" onClick={onCancel} className="border-slate-700 bg-[#121A2F] text-slate-300 hover:bg-slate-800 hover:text-white">
                   Cancel
                 </Button>
-                <Button type="submit" className="bg-gradient-to-r from-blue-600 to-blue-700">
+                <Button type="submit" className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white">
                   {equipment ? "Update Equipment" : "Add Equipment"}
                 </Button>
               </div>

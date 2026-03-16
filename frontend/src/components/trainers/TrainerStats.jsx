@@ -120,23 +120,23 @@ export default function TrainerStats({ isLoading: parentLoading }) {
       {statCards.map((stat, index) => (
         <motion.div
           key={stat.title}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
           whileHover={{ y: -5 }}
         >
-          <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+          <Card className="bg-[#121A2F] border-slate-800 shadow-none hover:bg-[#1A233A] transition-all duration-300">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-slate-500 mb-1">{stat.title}</p>
+                  <p className="text-sm font-medium text-slate-400 mb-1">{stat.title}</p>
                   {isLoading || parentLoading ? (
-                    <Skeleton className="h-8 w-16" />
+                    <Skeleton className="h-8 w-16 bg-slate-800" />
                   ) : (
-                    <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
+                    <p className="text-2xl font-bold text-white">{stat.value}</p>
                   )}
                 </div>
-                <div className={`p-3 rounded-xl bg-gradient-to-r ${stat.gradient} shadow-lg`}>
+                <div className={`p-3 rounded-xl bg-gradient-to-r ${stat.gradient} shadow-none`}>
                   <stat.icon className="w-6 h-6 text-white" />
                 </div>
               </div>

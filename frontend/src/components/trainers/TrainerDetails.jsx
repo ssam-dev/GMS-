@@ -24,16 +24,16 @@ import { motion } from "framer-motion";
 import { format } from "date-fns";
 
 const statusColors = {
-  active: "bg-green-100 text-green-700 border-green-200",
-  inactive: "bg-red-100 text-red-700 border-red-200",
-  on_leave: "bg-yellow-100 text-yellow-700 border-yellow-200",
+  active: "bg-green-500/10 text-green-500 border-green-500/20",
+  inactive: "bg-red-500/10 text-red-500 border-red-500/20",
+  on_leave: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20",
 };
 
 const availabilityColors = {
-  "Full Day": "bg-blue-100 text-blue-700",
-  "Morning": "bg-orange-100 text-orange-700",
-  "Evening": "bg-purple-100 text-purple-700",
-  "Afternoon": "bg-green-100 text-green-700",
+  "Full Day": "bg-blue-500/10 text-blue-500 border-blue-500/20",
+  "Morning": "bg-orange-500/10 text-orange-500 border-orange-500/20",
+  "Evening": "bg-purple-500/10 text-purple-500 border-purple-500/20",
+  "Afternoon": "bg-green-500/10 text-green-500 border-green-500/20",
 };
 
 export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
@@ -84,7 +84,7 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50"
       onClick={onClose}
     >
       <motion.div
@@ -94,13 +94,13 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
         className="w-full max-w-4xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <Card className="bg-white border-0 shadow-2xl">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-xl font-bold text-slate-900">
+        <Card className="bg-[#1A233A] border-slate-800 shadow-2xl">
+          <CardHeader className="flex flex-row items-center justify-between border-b border-slate-800/50 pb-4">
+            <CardTitle className="text-xl font-bold text-white">
               Trainer Details
             </CardTitle>
-            <Button variant="ghost" size="icon" onClick={onClose}>
-              <X className="w-4 h-4" />
+            <Button variant="ghost" size="icon" onClick={onClose} className="text-slate-400 hover:text-white hover:bg-slate-800">
+              <X className="w-5 h-5" />
             </Button>
           </CardHeader>
           <CardContent className="p-6">
@@ -114,24 +114,24 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
                       <img
                         src={getFileUrl(profilePhoto)}
                         alt={`${firstName} ${lastName}`}
-                        className="w-32 h-32 rounded-full object-cover border-4 border-slate-200 mx-auto"
+                        className="w-32 h-32 rounded-full object-cover border-4 border-slate-700 mx-auto shadow-2xl"
                       />
                     ) : (
-                      <div className="w-32 h-32 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto">
+                      <div className="w-32 h-32 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center mx-auto shadow-2xl border-4 border-slate-700">
                         <span className="text-white font-bold text-4xl">
                           {firstName.charAt(0) || 'T'}{lastName.charAt(0) || 'R'}
                         </span>
                       </div>
                     )}
-                    <div className={`absolute bottom-2 right-2 w-6 h-6 rounded-full border-4 border-white ${
+                    <div className={`absolute bottom-2 right-2 w-6 h-6 rounded-full border-4 border-[#1A233A] ${
                       status === 'active' ? 'bg-green-500' : 
                       status === 'on_leave' ? 'bg-yellow-500' : 'bg-red-500'
                     }`}></div>
                   </div>
-                  <h2 className="text-2xl font-bold text-slate-900 mt-4">
+                  <h2 className="text-2xl font-bold text-white mt-4">
                     {firstName} {lastName}
                   </h2>
-                  <p className="text-slate-600 mt-1">
+                  <p className="text-slate-400 mt-1">
                     {getExperienceYears()} years experience
                   </p>
                 </div>
@@ -160,7 +160,7 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
                 <div className="flex gap-2">
                   <Button 
                     variant="outline" 
-                    className="flex-1"
+                    className="flex-1 border-slate-700 bg-[#121A2F] text-slate-300 hover:bg-slate-800 hover:text-white"
                     onClick={() => onEdit(trainer)}
                   >
                     <Edit className="w-4 h-4 mr-2" />
@@ -168,7 +168,7 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
                   </Button>
                   <Button 
                     variant="destructive" 
-                    className="flex-1"
+                    className="flex-1 bg-red-900/50 hover:bg-red-900 text-red-200 border border-red-800/50"
                     onClick={() => onDelete(trainer.id)}
                   >
                     <Trash2 className="w-4 h-4 mr-2" />
@@ -181,23 +181,23 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
               <div className="lg:col-span-2 space-y-6">
                 {/* Contact Information */}
                 <div>
-                  <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
-                    <User className="w-5 h-5" />
+                  <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2 border-b border-slate-800/50 pb-2">
+                    <User className="w-5 h-5 text-blue-500" />
                     Contact Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                      <Mail className="w-5 h-5 text-blue-500" />
+                    <div className="flex items-center gap-3 p-3 bg-[#121A2F] border border-slate-800/50 rounded-xl">
+                      <Mail className="w-5 h-5 text-blue-400" />
                       <div>
-                        <p className="font-medium text-slate-900">Email</p>
-                        <p className="text-sm text-slate-600">{email || 'Not provided'}</p>
+                        <p className="font-medium text-slate-300 text-sm">Email</p>
+                        <p className="text-white">{email || 'Not provided'}</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                      <Phone className="w-5 h-5 text-green-500" />
+                    <div className="flex items-center gap-3 p-3 bg-[#121A2F] border border-slate-800/50 rounded-xl">
+                      <Phone className="w-5 h-5 text-green-400" />
                       <div>
-                        <p className="font-medium text-slate-900">Phone</p>
-                        <p className="text-sm text-slate-600">{phone || 'Not provided'}</p>
+                        <p className="font-medium text-slate-300 text-sm">Phone</p>
+                        <p className="text-white">{phone || 'Not provided'}</p>
                       </div>
                     </div>
                   </div>
@@ -205,28 +205,28 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
 
                 {/* Employment Details */}
                 <div>
-                  <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
-                    <Calendar className="w-5 h-5" />
+                  <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2 border-b border-slate-800/50 pb-2">
+                    <Calendar className="w-5 h-5 text-purple-500" />
                     Employment Details
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {hireDate && (
-                      <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                        <Calendar className="w-5 h-5 text-purple-500" />
+                      <div className="flex items-center gap-3 p-3 bg-[#121A2F] border border-slate-800/50 rounded-xl">
+                        <Calendar className="w-5 h-5 text-purple-400" />
                         <div>
-                          <p className="font-medium text-slate-900">Hire Date</p>
-                          <p className="text-sm text-slate-600">
+                          <p className="font-medium text-slate-300 text-sm">Hire Date</p>
+                          <p className="text-white">
                             {format(new Date(hireDate), 'MMMM dd, yyyy')}
                           </p>
                         </div>
                       </div>
                     )}
                     {hourlyRate && !isNaN(hourlyRate) && (
-                      <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                        <DollarSign className="w-5 h-5 text-green-500" />
+                      <div className="flex items-center gap-3 p-3 bg-[#121A2F] border border-slate-800/50 rounded-xl">
+                        <DollarSign className="w-5 h-5 text-green-400" />
                         <div>
-                          <p className="font-medium text-slate-900">Hourly Rate</p>
-                          <p className="text-sm text-slate-600">${Number(hourlyRate).toFixed(2)}/hour</p>
+                          <p className="font-medium text-slate-300 text-sm">Hourly Rate</p>
+                          <p className="text-white">${Number(hourlyRate).toFixed(2)}/hour</p>
                         </div>
                       </div>
                     )}
@@ -236,8 +236,8 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
                 {/* Specializations */}
                 {specializations.length > 0 && (
                   <div>
-                    <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
-                      <Star className="w-5 h-5" />
+                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2 border-b border-slate-800/50 pb-2">
+                      <Star className="w-5 h-5 text-blue-500" />
                       Specializations
                     </h3>
                     <div className="flex flex-wrap gap-2">
@@ -245,7 +245,7 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
                         <Badge
                           key={`spec-${index}`}
                           variant="secondary"
-                          className="bg-blue-100 text-blue-700"
+                          className="bg-blue-500/10 text-blue-400 border border-blue-500/20"
                         >
                           {spec}
                         </Badge>
@@ -257,8 +257,8 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
                 {/* Certifications */}
                 {certifications.length > 0 && (
                   <div>
-                    <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
-                      <Award className="w-5 h-5" />
+                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2 border-b border-slate-800/50 pb-2">
+                      <Award className="w-5 h-5 text-green-500" />
                       Certifications
                     </h3>
                     <div className="flex flex-wrap gap-2">
@@ -266,7 +266,7 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
                         <Badge
                           key={`cert-${index}`}
                           variant="secondary"
-                          className="bg-green-100 text-green-700"
+                          className="bg-green-500/10 text-green-400 border border-green-500/20"
                         >
                           {cert}
                         </Badge>
@@ -278,8 +278,8 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
                   {/* Certificate Files */}
                   {trainer.certificate_files && trainer.certificate_files.length > 0 && (
                     <div>
-                      <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
-                        <FileText className="w-5 h-5" />
+                      <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2 border-b border-slate-800/50 pb-2">
+                        <FileText className="w-5 h-5 text-blue-500" />
                         Certificate Documents
                       </h3>
                       <div className="space-y-2">
@@ -289,7 +289,7 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
                           const isPDF = /\.pdf$/i.test(fileName);
                         
                           return (
-                            <div key={`cert-file-${index}`} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors">
+                            <div key={`cert-file-${index}`} className="flex items-center justify-between p-3 bg-[#121A2F] border border-slate-800/50 rounded-xl hover:bg-[#1A233A] transition-colors">
                               <div className="flex items-center gap-3 flex-1 min-w-0">
                                 {isPDF ? (
                                   <FileText className="w-5 h-5 text-red-500 flex-shrink-0" />
@@ -297,7 +297,7 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
                                   <Eye className="w-5 h-5 text-blue-500 flex-shrink-0" />
                                 )}
                                 <div className="flex-1 min-w-0">
-                                  <p className="font-medium text-slate-900 truncate">{fileName}</p>
+                                  <p className="font-medium text-white truncate">{fileName}</p>
                                   <p className="text-xs text-slate-500">
                                     {isPDF ? 'PDF Document' : 'Image File'}
                                   </p>
@@ -338,32 +338,35 @@ export default function TrainerDetails({ trainer, onEdit, onDelete, onClose }) {
                 {/* Bio */}
                 {bio && (
                   <div>
-                    <h3 className="text-lg font-semibold text-slate-900 mb-4">
+                    <h3 className="text-lg font-semibold text-white mb-4 border-b border-slate-800/50 pb-2">
                       About
                     </h3>
-                    <div className="p-4 bg-slate-50 rounded-lg">
-                      <p className="text-slate-700 leading-relaxed">{bio}</p>
+                    <div className="p-4 bg-[#121A2F] border border-slate-800/50 rounded-xl">
+                      <p className="text-slate-300 leading-relaxed text-sm">{bio}</p>
                     </div>
                   </div>
                 )}
 
                 {/* Performance Metrics (Placeholder) */}
                 <div>
-                  <h3 className="text-lg font-semibold text-slate-900 mb-4">
+                  <h3 className="text-lg font-semibold text-white mb-4 border-b border-slate-800/50 pb-2">
                     Performance Overview
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg">
-                      <div className="text-2xl font-bold text-blue-700">12</div>
-                      <div className="text-sm text-blue-600">Active Clients</div>
+                    <div className="p-4 bg-gradient-to-br from-blue-600/20 to-blue-600/5 border border-blue-500/20 rounded-xl relative overflow-hidden group">
+                      <div className="text-2xl font-bold text-white relative z-10">12</div>
+                      <div className="text-xs text-blue-400 font-medium relative z-10">Active Clients</div>
+                      <Users className="absolute -bottom-2 -right-2 w-12 h-12 text-blue-500/10 group-hover:scale-110 transition-transform" />
                     </div>
-                    <div className="p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
-                      <div className="text-2xl font-bold text-green-700">4.8</div>
-                      <div className="text-sm text-green-600">Rating</div>
+                    <div className="p-4 bg-gradient-to-br from-green-600/20 to-green-600/5 border border-green-500/20 rounded-xl relative overflow-hidden group">
+                      <div className="text-2xl font-bold text-white relative z-10">4.8</div>
+                      <div className="text-xs text-green-400 font-medium relative z-10">Rating</div>
+                      <Star className="absolute -bottom-2 -right-2 w-12 h-12 text-green-500/10 group-hover:scale-110 transition-transform" />
                     </div>
-                    <div className="p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg">
-                      <div className="text-2xl font-bold text-purple-700">156</div>
-                      <div className="text-sm text-purple-600">Sessions This Month</div>
+                    <div className="p-4 bg-gradient-to-br from-purple-600/20 to-purple-600/5 border border-purple-500/20 rounded-xl relative overflow-hidden group">
+                      <div className="text-2xl font-bold text-white relative z-10">156</div>
+                      <div className="text-xs text-purple-400 font-medium relative z-10">Sessions</div>
+                      <Clock className="absolute -bottom-2 -right-2 w-12 h-12 text-purple-500/10 group-hover:scale-110 transition-transform" />
                     </div>
                   </div>
                 </div>

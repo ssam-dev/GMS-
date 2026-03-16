@@ -238,7 +238,7 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50"
     >
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
@@ -246,14 +246,14 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
         exit={{ scale: 0.9, opacity: 0 }}
         className="w-full max-w-4xl max-h-[90vh] overflow-y-auto"
       >
-        <Card className="bg-white border-0 shadow-2xl">
-          <CardHeader className="flex flex-row items-center justify-between border-b border-slate-200">
-            <CardTitle className="text-xl font-bold text-slate-900 flex items-center gap-2">
+        <Card className="bg-[#1A233A] border-slate-800 shadow-2xl">
+          <CardHeader className="flex flex-row items-center justify-between border-b border-slate-800/50 pb-4">
+            <CardTitle className="text-xl font-bold text-white flex items-center gap-2">
               <UserIcon className="w-5 h-5" />
               Admin Profile Settings
             </CardTitle>
-            <Button variant="ghost" size="icon" onClick={onClose}>
-              <X className="w-4 h-4" />
+            <Button variant="ghost" size="icon" onClick={onClose} className="text-slate-400 hover:text-white hover:bg-slate-800">
+              <X className="w-5 h-5" />
             </Button>
           </CardHeader>
           
@@ -267,7 +267,7 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
                       <img
                         src={profileImagePreview}
                         alt="Profile"
-                        className="w-32 h-32 rounded-full object-cover border-4 border-blue-200 shadow-lg"
+                        className="w-32 h-32 rounded-full object-cover border-4 border-slate-700 shadow-2xl"
                         onError={() => setImageLoadError(true)}
                       />
                       <button
@@ -280,7 +280,7 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
                       </button>
                     </div>
                   ) : (
-                    <div className="w-32 h-32 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg border-4 border-blue-200">
+                    <div className="w-32 h-32 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center shadow-2xl border-4 border-slate-700">
                       <span className="text-white font-bold text-3xl">
                         {getInitials(formData.full_name)}
                       </span>
@@ -289,7 +289,7 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
                 </div>
 
                 <div className="space-y-3">
-                  <p className="text-sm text-slate-600">Upload your profile picture</p>
+                  <p className="text-sm text-slate-400">Upload your profile picture</p>
                   
                   {/* Image Upload Buttons */}
                   <div className="flex flex-wrap justify-center gap-2">
@@ -298,7 +298,7 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
                       variant="outline"
                       size="sm"
                       onClick={() => fileInputRef.current?.click()}
-                      className="gap-2"
+                      className="gap-2 border-slate-700 bg-[#121A2F] text-slate-300 hover:bg-slate-800 hover:text-white"
                     >
                       <Upload className="w-4 h-4" />
                       Upload File
@@ -309,7 +309,7 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
                       variant="outline"
                       size="sm"
                       onClick={() => cameraInputRef.current?.click()}
-                      className="gap-2"
+                      className="gap-2 border-slate-700 bg-[#121A2F] text-slate-300 hover:bg-slate-800 hover:text-white"
                     >
                       <Camera className="w-4 h-4" />
                       Take Photo
@@ -320,7 +320,7 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
                       variant="outline"
                       size="sm"
                       onClick={() => setShowUrlInput(!showUrlInput)}
-                      className="gap-2"
+                      className="gap-2 border-slate-700 bg-[#121A2F] text-slate-300 hover:bg-slate-800 hover:text-white"
                     >
                       <LinkIcon className="w-4 h-4" />
                       {showUrlInput ? "Cancel URL" : "Use URL"}
@@ -340,7 +340,7 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
                         value={urlInput}
                         onChange={(e) => setUrlInput(e.target.value)}
                         placeholder="https://example.com/profile.jpg"
-                        className="flex-1"
+                        className="flex-1 bg-[#121A2F] border-slate-700 text-white placeholder-slate-600"
                       />
                       <Button
                         type="button"
@@ -377,14 +377,14 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
               </div>
 
               {/* Personal Information */}
-              <div>
-                <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
-                  <UserIcon className="w-5 h-5" />
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2 border-b border-slate-800/50 pb-2">
+                  <UserIcon className="w-5 h-5 text-blue-500" />
                   Personal Information
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="full_name" className="flex items-center gap-1">
+                    <Label htmlFor="full_name" className="flex items-center gap-1 text-slate-300">
                       Full Name <span className="text-red-500">*</span>
                     </Label>
                     <Input
@@ -392,7 +392,7 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
                       value={formData.full_name}
                       onChange={(e) => handleChange("full_name", e.target.value)}
                       placeholder="John Doe"
-                      className={errors.full_name ? "border-red-500" : ""}
+                      className={`bg-[#121A2F] border-slate-700 text-white placeholder-slate-600 ${errors.full_name ? "border-red-500" : ""}`}
                     />
                     {errors.full_name && (
                       <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -402,7 +402,7 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
                   </div>
                   
                   <div>
-                    <Label htmlFor="email" className="flex items-center gap-1">
+                    <Label htmlFor="email" className="flex items-center gap-1 text-slate-300">
                       <Mail className="w-4 h-4" />
                       Email <span className="text-red-500">*</span>
                     </Label>
@@ -412,7 +412,7 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
                       value={formData.email}
                       onChange={(e) => handleChange("email", e.target.value)}
                       placeholder="john.doe@example.com"
-                      className={errors.email ? "border-red-500" : ""}
+                      className={`bg-[#121A2F] border-slate-700 text-white placeholder-slate-600 ${errors.email ? "border-red-500" : ""}`}
                     />
                     {errors.email && (
                       <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -423,7 +423,7 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
                   </div>
                   
                   <div>
-                    <Label htmlFor="phone" className="flex items-center gap-1">
+                    <Label htmlFor="phone" className="flex items-center gap-1 text-slate-300">
                       <Phone className="w-4 h-4" />
                       Phone Number
                     </Label>
@@ -433,7 +433,7 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
                       value={formData.phone}
                       onChange={(e) => handleChange("phone", e.target.value)}
                       placeholder="+1 (555) 123-4567"
-                      className={errors.phone ? "border-red-500" : ""}
+                      className={`bg-[#121A2F] border-slate-700 text-white placeholder-slate-600 ${errors.phone ? "border-red-500" : ""}`}
                     />
                     {errors.phone && (
                       <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
@@ -442,7 +442,7 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
                   </div>
                   
                   <div>
-                    <Label htmlFor="address" className="flex items-center gap-1">
+                    <Label htmlFor="address" className="flex items-center gap-1 text-slate-300">
                       <MapPin className="w-4 h-4" />
                       Address
                     </Label>
@@ -451,18 +451,19 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
                       value={formData.address}
                       onChange={(e) => handleChange("address", e.target.value)}
                       placeholder="123 Main St, Apt 4B"
+                      className="bg-[#121A2F] border-slate-700 text-white placeholder-slate-600"
                     />
                   </div>
                 </div>
                 
                 <div className="mt-4">
-                  <Label htmlFor="bio">Bio / About Me</Label>
+                  <Label htmlFor="bio" className="text-slate-300">Bio / About Me</Label>
                   <Textarea
                     id="bio"
                     value={formData.bio}
                     onChange={(e) => handleChange("bio", e.target.value)}
                     placeholder="Tell us about yourself, your fitness journey, or your role at the gym..."
-                    className="h-24 resize-none"
+                    className="h-24 resize-none bg-[#121A2F] border-slate-700 text-white placeholder-slate-600"
                     maxLength={500}
                   />
                   <p className="text-xs text-slate-500 mt-1 text-right">
@@ -472,13 +473,13 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
               </div>
 
               {/* Certificates Section */}
-              <div>
-                <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
-                  <Award className="w-5 h-5" />
+              <div className="space-y-4 pt-4 border-t border-slate-800/50">
+                <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                  <Award className="w-5 h-5 text-blue-500" />
                   Certificates & Qualifications
                 </h3>
                 <div className="space-y-4">
-                  <p className="text-sm text-slate-600">
+                  <p className="text-sm text-slate-400">
                     Upload your professional certificates, qualifications, or licenses (PDF or images)
                   </p>
                   <MultiFileUpload
@@ -500,40 +501,42 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
               </div>
 
               {/* Gym Information */}
-              <div>
-                <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
-                  <MapPin className="w-5 h-5" />
+              <div className="space-y-4 pt-4 border-t border-slate-800/50">
+                <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-blue-500" />
                   Gym Information
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="gym_name">Gym Name</Label>
+                    <Label htmlFor="gym_name" className="text-slate-300">Gym Name</Label>
                     <Input
                       id="gym_name"
                       value={formData.gym_name}
                       onChange={(e) => handleChange("gym_name", e.target.value)}
                       placeholder="e.g., Elite Fitness Center"
+                      className="bg-[#121A2F] border-slate-700 text-white placeholder-slate-600"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="gym_phone">Gym Phone</Label>
+                    <Label htmlFor="gym_phone" className="text-slate-300">Gym Phone</Label>
                     <Input
                       id="gym_phone"
                       type="tel"
                       value={formData.gym_phone}
                       onChange={(e) => handleChange("gym_phone", e.target.value)}
                       placeholder="+1 (555) 987-6543"
+                      className="bg-[#121A2F] border-slate-700 text-white placeholder-slate-600"
                     />
                   </div>
                 </div>
                 <div className="mt-4">
-                  <Label htmlFor="gym_address">Gym Address</Label>
+                  <Label htmlFor="gym_address" className="text-slate-300">Gym Address</Label>
                   <Textarea
                     id="gym_address"
                     value={formData.gym_address}
                     onChange={(e) => handleChange("gym_address", e.target.value)}
                     placeholder="456 Gym Street, Suite 100&#10;City, State, ZIP Code"
-                    className="h-20 resize-none"
+                    className="h-20 resize-none bg-[#121A2F] border-slate-700 text-white placeholder-slate-600"
                   />
                   <p className="text-xs text-slate-500 mt-1">Full address including street, city, state, and ZIP</p>
                 </div>
@@ -541,19 +544,19 @@ export default function AdminProfileModal({ user, onClose, onUpdate }) {
 
               {/* Error Message */}
               {errors.submit && (
-                <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-                  <p className="text-red-600 text-sm">{errors.submit}</p>
+                <div className="p-3 bg-red-900/30 border border-red-800/50 rounded-lg">
+                  <p className="text-red-400 text-sm">{errors.submit}</p>
                 </div>
               )}
 
               {/* Form Actions */}
-              <div className="flex justify-end gap-3 pt-4 border-t border-slate-200">
-                <Button type="button" variant="outline" onClick={onClose}>
+              <div className="flex justify-end gap-3 pt-4 border-t border-slate-800/50">
+                <Button type="button" variant="outline" onClick={onClose} className="border-slate-700 bg-[#121A2F] text-slate-300 hover:bg-slate-800 hover:text-white">
                   Cancel
                 </Button>
                 <Button 
                   type="submit" 
-                  className="bg-gradient-to-r from-blue-600 to-blue-700"
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
                   disabled={isLoading}
                 >
                   {isLoading ? (

@@ -195,25 +195,25 @@ export default function MemberForm({ member, onSubmit, onCancel }) {
         className="w-full max-w-2xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <Card className="bg-white border-0 shadow-2xl">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-xl font-bold text-slate-900">
+        <Card className="bg-[#1A233A] border-slate-800 shadow-2xl">
+          <CardHeader className="flex flex-row items-center justify-between border-b border-slate-800/50 pb-4">
+            <CardTitle className="text-xl font-bold text-white">
               {member ? "Edit Member" : "Add New Member"}
             </CardTitle>
-            <Button variant="ghost" size="icon" onClick={onCancel} disabled={isSubmitting}>
-              <X className="w-4 h-4" />
+            <Button variant="ghost" size="icon" onClick={onCancel} disabled={isSubmitting} className="text-slate-400 hover:text-white hover:bg-slate-800">
+              <X className="w-5 h-5" />
             </Button>
           </CardHeader>
           <CardContent className="p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="first_name">First Name *</Label>
+                  <Label htmlFor="first_name" className="text-slate-300">First Name *</Label>
                   <Input
                     id="first_name"
                     value={formData.first_name}
                     onChange={(e) => handleChange("first_name", e.target.value)}
-                    className={errors.first_name ? "border-red-500" : ""}
+                    className={`bg-[#121A2F] border-slate-700 text-white placeholder-slate-500 ${errors.first_name ? "border-red-500" : ""}`}
                     disabled={isSubmitting}
                   />
                   {errors.first_name && (
@@ -221,12 +221,12 @@ export default function MemberForm({ member, onSubmit, onCancel }) {
                   )}
                 </div>
                 <div>
-                  <Label htmlFor="last_name">Last Name *</Label>
+                  <Label htmlFor="last_name" className="text-slate-300">Last Name *</Label>
                   <Input
                     id="last_name"
                     value={formData.last_name}
                     onChange={(e) => handleChange("last_name", e.target.value)}
-                    className={errors.last_name ? "border-red-500" : ""}
+                    className={`bg-[#121A2F] border-slate-700 text-white placeholder-slate-500 ${errors.last_name ? "border-red-500" : ""}`}
                     disabled={isSubmitting}
                   />
                   {errors.last_name && (
@@ -237,13 +237,13 @@ export default function MemberForm({ member, onSubmit, onCancel }) {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="email">Email *</Label>
+                  <Label htmlFor="email" className="text-slate-300">Email *</Label>
                   <Input
                     id="email"
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleChange("email", e.target.value)}
-                    className={errors.email ? "border-red-500" : ""}
+                    className={`bg-[#121A2F] border-slate-700 text-white placeholder-slate-500 ${errors.email ? "border-red-500" : ""}`}
                     disabled={isSubmitting}
                   />
                   {errors.email && (
@@ -251,11 +251,12 @@ export default function MemberForm({ member, onSubmit, onCancel }) {
                   )}
                 </div>
                 <div>
-                  <Label htmlFor="phone">Phone</Label>
+                  <Label htmlFor="phone" className="text-slate-300">Phone</Label>
                   <Input
                     id="phone"
                     value={formData.phone}
                     onChange={(e) => handleChange("phone", e.target.value)}
+                    className="bg-[#121A2F] border-slate-700 text-white placeholder-slate-500"
                     disabled={isSubmitting}
                   />
                 </div>
@@ -263,26 +264,27 @@ export default function MemberForm({ member, onSubmit, onCancel }) {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="date_of_birth">Date of Birth</Label>
+                  <Label htmlFor="date_of_birth" className="text-slate-300">Date of Birth</Label>
                   <Input
                     id="date_of_birth"
                     type="date"
                     value={formData.date_of_birth}
                     onChange={(e) => handleChange("date_of_birth", e.target.value)}
+                    className="bg-[#121A2F] border-slate-700 text-white placeholder-slate-500 [color-scheme:dark]"
                     disabled={isSubmitting}
                   />
                 </div>
                 <div>
-                  <Label htmlFor="status">Status</Label>
+                  <Label htmlFor="status" className="text-slate-300">Status</Label>
                   <Select
                     value={formData.status}
                     onValueChange={(value) => handleChange("status", value)}
                     disabled={isSubmitting}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-[#121A2F] border-slate-700 text-white">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-[#1A233A] border-slate-800 text-white">
                       <SelectItem value="active">Active</SelectItem>
                       <SelectItem value="inactive">Inactive</SelectItem>
                       <SelectItem value="expired">Expired</SelectItem>
@@ -292,22 +294,22 @@ export default function MemberForm({ member, onSubmit, onCancel }) {
               </div>
 
               {/* Membership Type Section with Visual Separator */}
-              <div className="space-y-4 pt-4 border-t border-slate-200">
-                <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+              <div className="space-y-4 pt-4 border-t border-slate-800/50">
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">
                   Membership Information
                 </h3>
                 
                 <div>
-                  <Label htmlFor="membership_type">Membership Type *</Label>
+                  <Label htmlFor="membership_type" className="text-slate-300">Membership Type *</Label>
                   <Select
                     value={formData.membership_type}
                     onValueChange={(value) => handleChange("membership_type", value)}
                     disabled={isSubmitting}
                   >
-                    <SelectTrigger className={errors.membership_type ? "border-red-500" : ""}>
+                    <SelectTrigger className={`bg-[#121A2F] border-slate-700 text-white ${errors.membership_type ? "border-red-500" : ""}`}>
                       <SelectValue placeholder="Select membership type" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-[#1A233A] border-slate-800 text-white">
                       <SelectItem value="basic">Basic - 1 month</SelectItem>
                       <SelectItem value="premium">Premium - 6 months</SelectItem>
                       <SelectItem value="vip">VIP - 1 year</SelectItem>
@@ -318,10 +320,10 @@ export default function MemberForm({ member, onSubmit, onCancel }) {
                     <p className="text-red-500 text-sm mt-1">{errors.membership_type}</p>
                   )}
                   {/* Display selected membership info */}
-                  <div className={`mt-2 p-2 rounded-md bg-slate-50 border border-slate-200 ${getCurrentMembershipConfig().color}`}>
+                  <div className={`mt-2 p-2 rounded-md bg-[#121A2F]/50 border border-slate-800/50 ${getCurrentMembershipConfig().color}`}>
                     <p className="text-sm font-medium">
                       Selected: {getCurrentMembershipConfig().label} 
-                      <span className="text-slate-600 ml-1">
+                      <span className="text-slate-400 ml-1">
                         (Duration: {getCurrentMembershipConfig().duration})
                       </span>
                     </p>
@@ -332,17 +334,18 @@ export default function MemberForm({ member, onSubmit, onCancel }) {
               {/* Membership Dates Section */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="membership_start_date">Membership Start Date</Label>
+                  <Label htmlFor="membership_start_date" className="text-slate-300">Membership Start Date</Label>
                   <Input
                     id="membership_start_date"
                     type="date"
                     value={formData.membership_start_date}
                     onChange={(e) => handleChange("membership_start_date", e.target.value)}
+                    className="bg-[#121A2F] border-slate-700 text-white placeholder-slate-500 [color-scheme:dark]"
                     disabled={isSubmitting}
                   />
                 </div>
                 <div>
-                  <Label htmlFor="membership_end_date">
+                  <Label htmlFor="membership_end_date" className="text-slate-300">
                     {getCurrentMembershipConfig().label} Membership End Date
                   </Label>
                   <Input
@@ -350,6 +353,7 @@ export default function MemberForm({ member, onSubmit, onCancel }) {
                     type="date"
                     value={formData.membership_end_date}
                     onChange={(e) => handleChange("membership_end_date", e.target.value)}
+                    className="bg-[#121A2F] border-slate-700 text-white placeholder-slate-500 [color-scheme:dark]"
                     disabled={isSubmitting}
                     placeholder=""
                   />
@@ -363,52 +367,54 @@ export default function MemberForm({ member, onSubmit, onCancel }) {
               </div>
 
               {/* Emergency Contact Section */}
-              <div className="space-y-4 pt-4 border-t border-slate-200">
-                <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+              <div className="space-y-4 pt-4 border-t border-slate-800/50">
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">
                   Emergency Contact Information
                 </h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="emergency_contact_name">Emergency Contact Name</Label>
+                    <Label htmlFor="emergency_contact_name" className="text-slate-300">Emergency Contact Name</Label>
                     <Input
                       id="emergency_contact_name"
                       value={formData.emergency_contact_name}
                       onChange={(e) => handleChange("emergency_contact_name", e.target.value)}
+                      className="bg-[#121A2F] border-slate-700 text-white placeholder-slate-500"
                       disabled={isSubmitting}
                     />
                   </div>
                   <div>
-                    <Label htmlFor="emergency_contact_phone">Emergency Contact Phone</Label>
+                    <Label htmlFor="emergency_contact_phone" className="text-slate-300">Emergency Contact Phone</Label>
                     <Input
                       id="emergency_contact_phone"
                       value={formData.emergency_contact_phone}
                       onChange={(e) => handleChange("emergency_contact_phone", e.target.value)}
+                      className="bg-[#121A2F] border-slate-700 text-white placeholder-slate-500"
                       disabled={isSubmitting}
                     />
                   </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="medical_conditions">Medical Conditions</Label>
+                  <Label htmlFor="medical_conditions" className="text-slate-300">Medical Conditions</Label>
                   <Textarea
                     id="medical_conditions"
                     value={formData.medical_conditions}
                     onChange={(e) => handleChange("medical_conditions", e.target.value)}
                     placeholder="Any medical conditions or notes..."
-                    className="h-24"
+                    className="h-24 bg-[#121A2F] border-slate-700 text-white placeholder-slate-600"
                     disabled={isSubmitting}
                   />
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3">
-                <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting}>
+              <div className="flex justify-end gap-3 pt-4 border-t border-slate-800/50">
+                <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting} className="border-slate-700 bg-[#121A2F] text-slate-300 hover:bg-slate-800 hover:text-white">
                   Cancel
                 </Button>
                 <Button 
                   type="submit" 
-                  className="bg-gradient-to-r from-blue-600 to-blue-700"
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Saving..." : member ? "Update Member" : "Add Member"}

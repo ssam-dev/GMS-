@@ -307,40 +307,40 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
         exit={{ scale: 0.9, opacity: 0 }}
         className="w-full max-w-4xl max-h-[90vh] overflow-y-auto"
       >
-        <Card className="bg-white border-0 shadow-2xl">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-xl font-bold text-slate-900">
+        <Card className="bg-[#1A233A] border-slate-800 shadow-2xl">
+          <CardHeader className="flex flex-row items-center justify-between border-b border-slate-800/50 pb-4">
+            <CardTitle className="text-xl font-bold text-white">
               {trainer ? "Edit Trainer" : "Add New Trainer"}
             </CardTitle>
-            <Button variant="ghost" size="icon" onClick={onCancel}>
-              <X className="w-4 h-4" />
+            <Button variant="ghost" size="icon" onClick={onCancel} className="text-slate-400 hover:text-white hover:bg-slate-800">
+              <X className="w-5 h-5" />
             </Button>
           </CardHeader>
           <CardContent className="p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Basic Information Section */}
               <div className="space-y-4">
-                <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide border-b border-slate-200 pb-2">
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide border-b border-slate-800/50 pb-2">
                   Basic Information
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="first_name">First Name *</Label>
+                  <Label htmlFor="first_name" className="text-slate-300">First Name *</Label>
                   <Input
                     id="first_name"
                     value={formData.first_name}
                     onChange={(e) => handleChange("first_name", e.target.value)}
-                    className={errors.first_name ? "border-red-500" : ""}
+                    className={`bg-[#121A2F] border-slate-700 text-white placeholder-slate-500 ${errors.first_name ? "border-red-500" : ""}`}
                   />
                   {errors.first_name && <p className="text-red-500 text-sm mt-1">{errors.first_name}</p>}
                 </div>
                 <div>
-                  <Label htmlFor="last_name">Last Name *</Label>
+                  <Label htmlFor="last_name" className="text-slate-300">Last Name *</Label>
                   <Input
                     id="last_name"
                     value={formData.last_name}
                     onChange={(e) => handleChange("last_name", e.target.value)}
-                    className={errors.last_name ? "border-red-500" : ""}
+                    className={`bg-[#121A2F] border-slate-700 text-white placeholder-slate-500 ${errors.last_name ? "border-red-500" : ""}`}
                   />
                   {errors.last_name && <p className="text-red-500 text-sm mt-1">{errors.last_name}</p>}
                 </div>
@@ -348,70 +348,72 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
               </div>
 
               {/* Contact Information Section */}
-              <div className="space-y-4 pt-4 border-t border-slate-200">
-                <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+              <div className="space-y-4 pt-4 border-t border-slate-800/50">
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">
                   Contact Information
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="email">Email *</Label>
+                  <Label htmlFor="email" className="text-slate-300">Email *</Label>
                   <Input
                     id="email"
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleChange("email", e.target.value)}
-                    className={errors.email ? "border-red-500" : ""}
+                    className={`bg-[#121A2F] border-slate-700 text-white placeholder-slate-500 ${errors.email ? "border-red-500" : ""}`}
                   />
                   {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                 </div>
                 <div>
-                  <Label htmlFor="phone">Phone</Label>
+                  <Label htmlFor="phone" className="text-slate-300">Phone</Label>
                   <Input
                     id="phone"
                     value={formData.phone}
                     onChange={(e) => handleChange("phone", e.target.value)}
+                    className="bg-[#121A2F] border-slate-700 text-white placeholder-slate-500"
                   />
                 </div>
                 </div>
               </div>
 
               {/* Employment Details Section */}
-              <div className="space-y-4 pt-4 border-t border-slate-200">
-                <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+              <div className="space-y-4 pt-4 border-t border-slate-800/50">
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">
                   Employment Details
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <Label htmlFor="hire_date">Hire Date</Label>
+                  <Label htmlFor="hire_date" className="text-slate-300">Hire Date</Label>
                   <Input
                     id="hire_date"
                     type="date"
                     value={formData.hire_date}
                     onChange={(e) => handleChange("hire_date", e.target.value)}
+                    className="bg-[#121A2F] border-slate-700 text-white [color-scheme:dark]"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="hourly_rate">Hourly Rate ($)</Label>
+                  <Label htmlFor="hourly_rate" className="text-slate-300">Hourly Rate ($)</Label>
                   <Input
                     id="hourly_rate"
                     type="number"
                     step="0.01"
                     value={formData.hourly_rate}
                     onChange={(e) => handleChange("hourly_rate", e.target.value)}
-                    className={errors.hourly_rate ? "border-red-500" : ""}
+                    className={`bg-[#121A2F] border-slate-700 text-white placeholder-slate-500 ${errors.hourly_rate ? "border-red-500" : ""}`}
                   />
                   {errors.hourly_rate && <p className="text-red-500 text-sm mt-1">{errors.hourly_rate}</p>}
                 </div>
                 <div>
-                  <Label htmlFor="status">Status</Label>
+                  <Label htmlFor="status" className="text-slate-300">Status</Label>
                   <Select
                     value={formData.status}
                     onValueChange={(value) => handleChange("status", value)}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-[#121A2F] border-slate-700 text-white">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-[#1A233A] border-slate-800 text-white">
                       <SelectItem value="active">Active</SelectItem>
                       <SelectItem value="inactive">Inactive</SelectItem>
                       <SelectItem value="on_leave">On Leave</SelectItem>
@@ -421,15 +423,15 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
               </div>
 
                 <div>
-                  <Label htmlFor="availability">Availability</Label>
+                  <Label htmlFor="availability" className="text-slate-300">Availability</Label>
                   <Select
                     value={formData.availability}
                     onValueChange={(value) => handleChange("availability", value)}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-[#121A2F] border-slate-700 text-white">
                       <SelectValue placeholder="Select availability" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-[#1A233A] border-slate-800 text-white">
                       <SelectItem value="Full Day">Full Day</SelectItem>
                       <SelectItem value="Morning">Morning (6 AM - 12 PM)</SelectItem>
                       <SelectItem value="Afternoon">Afternoon (12 PM - 6 PM)</SelectItem>
@@ -440,13 +442,13 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
               </div>
 
               {/* Profile & Credentials Section */}
-              <div className="space-y-4 pt-4 border-t border-slate-200">
-                <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+              <div className="space-y-4 pt-4 border-t border-slate-800/50">
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">
                   Profile & Credentials
                 </h3>
 
               <div>
-                <Label className="mb-3 block">Profile Photo</Label>
+                <Label className="mb-3 block text-slate-300">Profile Photo</Label>
                 <FileUpload
                   label="Upload Profile Photo"
                   accept=".jpg,.jpeg,.png,.webp"
@@ -458,7 +460,7 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
               </div>
 
               <div>
-                <Label>Specializations</Label>
+                <Label className="text-slate-300">Specializations</Label>
                 <p className="text-xs text-slate-500 mb-2">Add trainer's areas of expertise (click badge to remove)</p>
                 <div className="space-y-3">
                   <div className="flex flex-wrap gap-2 min-h-[32px]">
@@ -466,7 +468,7 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
                       <Badge
                         key={spec}
                         variant="secondary"
-                        className="cursor-pointer hover:bg-red-100"
+                        className="cursor-pointer bg-slate-800 text-slate-300 hover:bg-red-900/50 hover:text-red-200 border-slate-700"
                         onClick={() => removeSpecialization(spec)}
                       >
                         {spec}
@@ -479,10 +481,10 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
                       value={newSpecialization}
                       onValueChange={setNewSpecialization}
                     >
-                      <SelectTrigger className="flex-1">
+                      <SelectTrigger className="flex-1 bg-[#121A2F] border-slate-700 text-white">
                         <SelectValue placeholder="Select specialization" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-[#1A233A] border-slate-800 text-white">
                         {commonSpecializations
                           .filter(spec => !formData.specializations.includes(spec))
                           .map(spec => (
@@ -493,6 +495,7 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
                     <Button
                       type="button"
                       variant="outline"
+                      className="border-slate-700 bg-[#121A2F] text-slate-300 hover:bg-slate-800"
                       onClick={() => addSpecialization(newSpecialization)}
                       disabled={!newSpecialization}
                     >
@@ -505,10 +508,12 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
                       value={newSpecialization}
                       onChange={(e) => setNewSpecialization(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addSpecialization(newSpecialization))}
+                      className="bg-[#121A2F] border-slate-700 text-white placeholder-slate-600"
                     />
                     <Button
                       type="button"
                       variant="outline"
+                      className="border-slate-700 bg-[#121A2F] text-slate-300 hover:bg-slate-800"
                       onClick={() => addSpecialization(newSpecialization)}
                       disabled={!newSpecialization}
                     >
@@ -519,7 +524,7 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
               </div>
 
               <div>
-                <Label>Certifications</Label>
+                <Label className="text-slate-300">Certifications</Label>
                 <p className="text-xs text-slate-500 mb-2">Add professional certifications (click badge to remove)</p>
                 <div className="space-y-3">
                   <div className="flex flex-wrap gap-2 min-h-[32px]">
@@ -527,7 +532,7 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
                       <Badge
                         key={cert}
                         variant="secondary"
-                        className="cursor-pointer hover:bg-red-100"
+                        className="cursor-pointer bg-slate-800 text-slate-300 hover:bg-red-900/50 hover:text-red-200 border-slate-700"
                         onClick={() => removeCertification(cert)}
                       >
                         {cert}
@@ -540,10 +545,10 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
                       value={newCertification}
                       onValueChange={setNewCertification}
                     >
-                      <SelectTrigger className="flex-1">
+                      <SelectTrigger className="flex-1 bg-[#121A2F] border-slate-700 text-white">
                         <SelectValue placeholder="Select certification" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-[#1A233A] border-slate-800 text-white">
                         {commonCertifications
                           .filter(cert => !formData.certifications.includes(cert))
                           .map(cert => (
@@ -554,6 +559,7 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
                     <Button
                       type="button"
                       variant="outline"
+                      className="border-slate-700 bg-[#121A2F] text-slate-300 hover:bg-slate-800"
                       onClick={() => addCertification(newCertification)}
                       disabled={!newCertification}
                     >
@@ -566,10 +572,12 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
                       value={newCertification}
                       onChange={(e) => setNewCertification(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addCertification(newCertification))}
+                      className="bg-[#121A2F] border-slate-700 text-white placeholder-slate-600"
                     />
                     <Button
                       type="button"
                       variant="outline"
+                      className="border-slate-700 bg-[#121A2F] text-slate-300 hover:bg-slate-800"
                       onClick={() => addCertification(newCertification)}
                       disabled={!newCertification}
                     >
@@ -581,7 +589,7 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
 
               {/* Certificate Files Upload */}
               <div>
-                <Label className="mb-3 block">Certificate Files</Label>
+                <Label className="mb-3 block text-slate-300">Certificate Files</Label>
                 <MultiFileUpload
                   label="Upload Certificate Files"
                   accept=".pdf,.jpg,.jpeg,.png,.webp"
@@ -593,13 +601,13 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
               </div>
 
               <div>
-                <Label htmlFor="bio">Professional Bio</Label>
+                <Label htmlFor="bio" className="text-slate-300">Professional Bio</Label>
                 <Textarea
                   id="bio"
                   value={formData.bio}
                   onChange={(e) => handleChange("bio", e.target.value)}
                   placeholder="Brief professional biography highlighting experience and approach..."
-                  className="h-32"
+                  className="h-32 bg-[#121A2F] border-slate-700 text-white placeholder-slate-600"
                 />
               </div>
               </div>
@@ -612,13 +620,13 @@ export default function TrainerForm({ trainer, onSubmit, onCancel }) {
               )}
 
               {/* Form Actions */}
-              <div className="flex justify-end gap-3 pt-4">
-                <Button type="button" variant="outline" onClick={onCancel} disabled={uploading}>
+              <div className="flex justify-end gap-3 pt-4 border-t border-slate-800/50">
+                <Button type="button" variant="outline" onClick={onCancel} disabled={uploading} className="border-slate-700 bg-[#121A2F] text-slate-300 hover:bg-slate-800 hover:text-white">
                   Cancel
                 </Button>
                 <Button 
                   type="submit" 
-                  className="bg-gradient-to-r from-blue-600 to-blue-700"
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
                   disabled={uploading}
                 >
                   {uploading ? 'Uploading...' : (trainer ? "Update Trainer" : "Add Trainer")}
