@@ -87,42 +87,42 @@ export default function EquipmentStats({ isLoading: parentLoading }) {
       value: String(stats.total), 
       icon: Package, 
       color: "blue",
-      gradient: "from-blue-500 to-blue-600"
+      gradient: "from-blue-500/15 to-blue-600/15"
     },
     { 
       title: "Operational", 
       value: String(stats.operational), 
       icon: CheckCircle, 
       color: "green",
-      gradient: "from-green-500 to-green-600"
+      gradient: "from-green-500/15 to-green-600/15"
     },
     { 
       title: "Needs Attention", 
       value: String(stats.needsRepair), 
       icon: AlertTriangle, 
       color: "red",
-      gradient: "from-red-500 to-red-600"
+      gradient: "from-red-500/15 to-red-600/15"
     },
     { 
       title: "In Maintenance", 
       value: String(stats.inMaintenance), 
       icon: Wrench, 
       color: "yellow",
-      gradient: "from-yellow-500 to-yellow-600"
+      gradient: "from-yellow-500/15 to-yellow-600/15"
     },
     { 
       title: "Total Value", 
       value: stats.totalValue > 0 ? `$${stats.totalValue.toLocaleString()}` : 'N/A', 
       icon: DollarSign, 
       color: "purple",
-      gradient: "from-purple-500 to-purple-600"
+      gradient: "from-purple-500/15 to-purple-600/15"
     },
     { 
       title: "Maintenance Due", 
       value: String(stats.maintenanceDue), 
       icon: Calendar, 
       color: "orange",
-      gradient: "from-orange-500 to-orange-600"
+      gradient: "from-orange-500/15 to-orange-600/15"
     },
   ];
 
@@ -146,7 +146,7 @@ export default function EquipmentStats({ isLoading: parentLoading }) {
                     <p className="text-lg font-bold text-white">{stat.value}</p>
                   )}
                 </div>
-                <div className={`p-2 rounded-lg bg-gradient-to-r ${stat.gradient} shadow-none bg-opacity-10`}>
+                <div className={`p-2 rounded-lg bg-gradient-to-r ${stat.gradient} shadow-none`}>
                   <stat.icon className="w-4 h-4 text-white" />
                 </div>
               </div>

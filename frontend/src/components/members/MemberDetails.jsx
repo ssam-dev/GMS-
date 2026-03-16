@@ -55,6 +55,15 @@ export default function MemberDetails({ member, onEdit, onDelete, onClose }) {
     return age;
   };
 
+  const formatDate = (value) => {
+    if (!value) return 'N/A';
+    const parsedDate = new Date(value);
+    if (Number.isNaN(parsedDate.getTime())) {
+      return 'N/A';
+    }
+    return format(parsedDate, 'MMMM dd, yyyy');
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -194,9 +203,7 @@ export default function MemberDetails({ member, onEdit, onDelete, onClose }) {
                       <div>
                         <p className="font-medium text-slate-300 text-sm">Start Date</p>
                         <p className="text-white">
-                          {member.membership_start_date 
-                            ? format(new Date(member.membership_start_date), 'MMMM dd, yyyy')
-                            : 'N/A'}
+                          {formatDate(member.membership_start_date)}
                         </p>
                       </div>
                     </div>
@@ -205,9 +212,7 @@ export default function MemberDetails({ member, onEdit, onDelete, onClose }) {
                       <div>
                         <p className="font-medium text-slate-300 text-sm">End Date</p>
                         <p className="text-white">
-                          {member.membership_end_date 
-                            ? format(new Date(member.membership_end_date), 'MMMM dd, yyyy')
-                            : 'N/A'}
+                          {formatDate(member.membership_end_date)}
                         </p>
                       </div>
                     </div>

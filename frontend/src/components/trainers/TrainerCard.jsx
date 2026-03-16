@@ -92,16 +92,16 @@ export default function TrainerCard({ trainer, onEdit, onDelete, onViewDetails }
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="bg-[#1A233A] border-slate-800 text-white">
-            <DropdownMenuItem onClick={() => onViewDetails(trainer)} className="hover:bg-slate-800 focus:bg-slate-800 cursor-pointer">
+            <DropdownMenuItem onClick={() => onViewDetails?.(trainer)} className="hover:bg-slate-800 focus:bg-slate-800 cursor-pointer">
               <Eye className="w-4 h-4 mr-2" />
               View Details
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onEdit(trainer)} className="hover:bg-slate-800 focus:bg-slate-800 cursor-pointer">
+            <DropdownMenuItem onClick={() => onEdit?.(trainer)} className="hover:bg-slate-800 focus:bg-slate-800 cursor-pointer">
               <Edit className="w-4 h-4 mr-2" />
               Edit
             </DropdownMenuItem>
             <DropdownMenuItem 
-              onClick={() => onDelete(trainer.id)} 
+              onClick={() => onDelete?.(trainer.id)} 
               className="text-red-500 hover:bg-slate-800 focus:bg-slate-800 cursor-pointer"
             >
               <Trash2 className="w-4 h-4 mr-2" />
@@ -139,7 +139,7 @@ export default function TrainerCard({ trainer, onEdit, onDelete, onViewDetails }
               </div>
               
               <p className="text-xs text-slate-400 capitalize mb-2 flex items-center gap-1 flex-wrap">
-                {experience} years exp • 
+                {experience} {experience === 1 ? 'year' : 'years'} exp • 
                 <span className={`${availabilityColors[availability] || 'text-slate-400'} flex items-center gap-1`}>
                   <Clock className="w-3 h-3" />
                   {availability || 'Not set'}
@@ -204,7 +204,7 @@ export default function TrainerCard({ trainer, onEdit, onDelete, onViewDetails }
                 Email
               </button>
             </div>
-            {hourlyRate && !isNaN(hourlyRate) && (
+            {hourlyRate != null && !Number.isNaN(Number(hourlyRate)) && (
               <div className="text-right shrink-0 px-2">
                 <span className="text-[10px] text-slate-500 block uppercase font-medium">Rate</span>
                 <span className="text-sm font-bold text-white">${Number(hourlyRate).toFixed(2)}<span className="text-xs text-slate-500 font-normal">/hr</span></span>

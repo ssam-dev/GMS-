@@ -14,6 +14,7 @@ import MemberStats from "../components/members/MemberStats";
 import MemberDetails from "../components/members/MemberDetails";
 
 export default function Members() {
+  const isDev = import.meta.env.DEV;
   const [members, setMembers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -131,7 +132,6 @@ export default function Members() {
       setMembershipFilter("all");
       setSearchTerm("");
       setCurrentPage(1);
-      loadMembers();
     } catch (error) {
       console.error("Error saving member:", error);
       // Re-throw the error so the form can handle it and show the toast
@@ -227,7 +227,7 @@ export default function Members() {
       <MemberStats isLoading={isLoading} />
 
       {/* Debug Info */}
-      {members.length === 0 && !isLoading && (
+      {isDev && members.length === 0 && !isLoading && (
         <Card className="bg-[#121A2F] border-slate-800 shadow-none mb-6">
           <CardContent className="p-4">
             <p className="text-sm text-slate-400">
@@ -261,6 +261,7 @@ export default function Members() {
             </div>
             <div className="flex gap-2">
               <select
+                aria-label="Status filter"
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
                 className="flex-1 h-10 px-3 py-2 bg-[#1A233A] border border-slate-800 text-sm text-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 appearance-none"
@@ -272,6 +273,7 @@ export default function Members() {
                 <option value="cancelled">Cancelled</option>
               </select>
               <select
+                aria-label="Membership filter"
                 value={membershipFilter}
                 onChange={(e) => setMembershipFilter(e.target.value)}
                 className="flex-1 h-10 px-3 py-2 bg-[#1A233A] border border-slate-800 text-sm text-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 appearance-none"

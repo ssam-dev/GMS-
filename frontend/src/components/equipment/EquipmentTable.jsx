@@ -87,7 +87,7 @@ export default function EquipmentTable({ equipment, onEdit, onDelete, onViewDeta
                     </td>
                     <td className="py-3 px-6 text-sm text-slate-300">
                       <span className="capitalize">
-                        {item.category.replace('_', ' ')}
+                        {item.category.replaceAll('_', ' ')}
                       </span>
                     </td>
                     <td className="py-3 px-6 text-sm text-slate-300">
@@ -97,7 +97,7 @@ export default function EquipmentTable({ equipment, onEdit, onDelete, onViewDeta
                     </td>
                     <td className="py-3 px-6">
                       <span className={`text-xs font-medium ${conditionColors[item.condition]}`}>
-                        {item.condition.replace('_', ' ')}
+                        {item.condition.replaceAll('_', ' ')}
                       </span>
                     </td>
                     <td className="py-3 px-6">
@@ -125,6 +125,8 @@ export default function EquipmentTable({ equipment, onEdit, onDelete, onViewDeta
                         size="icon"
                         className="h-8 w-8 text-slate-400 hover:text-white hover:bg-slate-800"
                         onClick={() => onViewDetails(item)}
+                        aria-label={`View details for ${item.name || item.id}`}
+                        title={`View details for ${item.name || item.id}`}
                       >
                         <Eye className="w-4 h-4" />
                       </Button>
@@ -133,6 +135,8 @@ export default function EquipmentTable({ equipment, onEdit, onDelete, onViewDeta
                         size="icon"
                         className="h-8 w-8 text-slate-400 hover:text-white hover:bg-slate-800"
                         onClick={() => onEdit(item)}
+                        aria-label={`Edit ${item.name || item.id}`}
+                        title={`Edit ${item.name || item.id}`}
                       >
                         <Edit className="w-4 h-4" />
                       </Button>
@@ -141,6 +145,8 @@ export default function EquipmentTable({ equipment, onEdit, onDelete, onViewDeta
                         size="icon"
                         className="h-8 w-8 text-slate-400 hover:text-red-500 hover:bg-slate-800"
                         onClick={() => onDelete(item.id)}
+                        aria-label={`Delete ${item.name || item.id}`}
+                        title={`Delete ${item.name || item.id}`}
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>

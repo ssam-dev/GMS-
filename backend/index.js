@@ -30,9 +30,11 @@ app.use(helmet({
 }));
 
 // Parse CORS origins from environment variable
+// In development, allow the common localhost ports for frontend (3000/3001).
+const defaultOrigins = ["http://localhost:3000", "http://localhost:3001"];
 const corsOrigins = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(",").map(origin => origin.trim())
-  : ["http://localhost:3000"];
+  : defaultOrigins;
 
 app.use(cors({
   origin: corsOrigins,

@@ -67,6 +67,15 @@ export default function EquipmentCard({ equipment, onEdit, onDelete, onViewDetai
   
   const nextMaintenanceDate = equipment.next_maintenance_date;
   const purchaseDate = equipment.purchase_date;
+  const formatDateSafe = (value, formatString) => {
+    const parsedDate = new Date(value);
+    if (Number.isNaN(parsedDate.getTime())) {
+      return null;
+    }
+    return format(parsedDate, formatString);
+  };
+  const formattedPurchaseDate = purchaseDate ? formatDateSafe(purchaseDate, 'MMM yyyy') : null;
+  const formattedNextMaintenanceDate = nextMaintenanceDate ? formatDateSafe(nextMaintenanceDate, 'MMM dd, yyyy') : null;
 
   const isMaintenanceDue = nextMaintenanceDate && 
     isBefore(new Date(nextMaintenanceDate), new Date());
@@ -177,7 +186,7 @@ export default function EquipmentCard({ equipment, onEdit, onDelete, onViewDetai
                     <div className="flex items-center gap-2 p-1.5 bg-yellow-900/20 border border-yellow-900/50 rounded-lg">
                       <Calendar className="w-3.5 h-3.5 text-yellow-500" />
                       <span className="text-[10px] text-yellow-500 font-medium">
-                        Maintenance due {format(new Date(nextMaintenanceDate), 'MMM d')}
+                        {formattedNextMaintenanceDate ? `Maintenance due ${formattedNextMaintenanceDate}` : 'Maintenance due'}
                       </span>
                     </div>
                   )}
@@ -196,7 +205,7 @@ export default function EquipmentCard({ equipment, onEdit, onDelete, onViewDetai
           
           <div className="flex items-center justify-between gap-2 mt-4 pt-4 border-t border-slate-800/50">
             <div className="text-[10px] text-slate-500 flex-1">
-              {purchaseDate && `Purchased: ${format(new Date(purchaseDate), 'MMM yyyy')}`}
+              {formattedPurchaseDate && `Purchased: ${formattedPurchaseDate}`}
             </div>
             <div className="flex gap-2 shrink-0">
               <Button

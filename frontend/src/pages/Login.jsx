@@ -13,7 +13,7 @@ import { isGoogleAuthEnabled, GOOGLE_AUTH_MODE } from "@/config/auth";
 export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("admin@gymsystem.com");
-  const [password, setPassword] = useState("admin123");
+  const [password, setPassword] = useState("12345");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   
@@ -137,7 +137,13 @@ export default function Login() {
               <Label htmlFor="password" className="text-slate-300 text-sm font-normal">
                 Password
               </Label>
-              <a href="#" className="text-blue-500 text-xs hover:underline">Forgot?</a>
+              <button
+                type="button"
+                onClick={() => navigate('/forgot-password')}
+                className="text-blue-500 text-xs hover:underline"
+              >
+                Forgot?
+              </button>
             </div>
             <div className="relative">
               <Lock className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
@@ -176,22 +182,36 @@ export default function Login() {
             <div className="flex-grow border-t border-slate-800"></div>
           </div>
 
-          <Button
-            type="button"
-            onClick={isMockMode ? handleMockGoogleLogin : undefined}
-            disabled={isLoading}
-            className="w-full h-12 bg-[#121A2F] border border-slate-800 hover:bg-[#1A233A] text-white font-medium transition-all flex items-center justify-center gap-3 relative"
-            variant="outline"
-          >
-            {/* Simple G icon */}
-            <svg viewBox="0 0 24 24" className="w-5 h-5 absolute left-4" fill="currentColor">
-              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
-              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-            </svg>
-            Continue with Google
-          </Button>
+          {isMockMode && (
+            <Button
+              type="button"
+              onClick={handleMockGoogleLogin}
+              disabled={isLoading}
+              className="w-full h-12 bg-[#121A2F] border border-slate-800 hover:bg-[#1A233A] text-white font-medium transition-all flex items-center justify-center gap-3 relative"
+              variant="outline"
+            >
+              <svg viewBox="0 0 24 24" className="w-5 h-5 absolute left-4" fill="currentColor">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+              </svg>
+              Continue with Google
+            </Button>
+          )}
+
+          {!isMockMode && googleEnabled && (
+            <div className="w-full h-12 flex items-center justify-center bg-[#121A2F] border border-slate-800 rounded-md px-2">
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={handleGoogleError}
+                text="continue_with"
+                theme="outline"
+                size="large"
+                width="280"
+              />
+            </div>
+          )}
 
           {/* Just hide standard google button to use our custom styled one via mock for visual match */}
           
@@ -211,7 +231,7 @@ export default function Login() {
               </div>
             </div>
             <p className="text-[10px] text-slate-600 text-center mt-6">
-              By signing in, you agree to our Terms of Service. For security, we monitor active sessions and IP addresses.
+              By signing in, you agree to our <a href="/terms-of-service" className="text-blue-500 hover:underline">Terms of Service</a>. For security, we monitor active sessions and IP addresses.
             </p>
           </div>
         </form>

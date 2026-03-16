@@ -8,8 +8,9 @@ import { motion } from "framer-motion";
 
 export default function MaintenanceDue({ equipment, onEdit, onViewDetails, isLoading }) {
   const today = new Date();
+  const equipmentList = Array.isArray(equipment) ? equipment : [];
   
-  const maintenanceItems = equipment
+  const maintenanceItems = equipmentList
     .filter(item => item.next_maintenance_date)
     .map(item => ({
       ...item,
@@ -18,7 +19,7 @@ export default function MaintenanceDue({ equipment, onEdit, onViewDetails, isLoa
     .filter(item => item.daysOverdue >= 0)
     .sort((a, b) => b.daysOverdue - a.daysOverdue);
 
-  const upcomingMaintenance = equipment
+  const upcomingMaintenance = equipmentList
     .filter(item => item.next_maintenance_date)
     .map(item => ({
       ...item,
@@ -68,18 +69,18 @@ export default function MaintenanceDue({ equipment, onEdit, onViewDetails, isLoa
                 >
                   <div className="flex-1">
                     <div className="flex items-center justify-between gap-3 mb-2">
-                      <h4 className="font-semibold text-white truncate pr-2">{item.name}</h4>
-                      <div className="shrink-0 bg-red-500/20 text-red-500 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                      <h4 title={item.name} className="font-semibold text-white truncate pr-2">{item.name}</h4>
+                      <div className="shrink-0 bg-red-500/20 text-red-500 text-xs font-bold px-2 py-0.5 rounded uppercase tracking-wider">
                         {item.daysOverdue} days overdue
                       </div>
                     </div>
-                    <div className="flex items-center gap-4 text-xs text-slate-400 mb-4">
+                    <div className="flex items-center gap-4 text-xs text-slate-400 mb-4 min-w-0">
                       <span className="flex items-center gap-1.5">
                         <Calendar className="w-3.5 h-3.5 text-red-400" />
                         Due: {format(new Date(item.next_maintenance_date), 'MMM d, yyyy')}
                       </span>
                       {item.location && (
-                        <span className="truncate">📍 {item.location}</span>
+                        <span className="truncate min-w-0 overflow-hidden whitespace-nowrap">📍 {item.location}</span>
                       )}
                     </div>
                   </div>

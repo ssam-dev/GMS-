@@ -308,6 +308,7 @@ export default function EquipmentPage() {
                 </div>
                 <div className="flex flex-wrap gap-2">
                   <select
+                    aria-label="Filter by category"
                     value={categoryFilter}
                     onChange={(e) => setCategoryFilter(e.target.value)}
                     className="flex-1 min-w-[140px] h-10 px-3 py-2 bg-[#1A233A] border border-slate-800 text-sm text-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 appearance-none"
@@ -320,6 +321,7 @@ export default function EquipmentPage() {
                     <option value="accessories">Accessories</option>
                   </select>
                   <select
+                    aria-label="Filter by condition"
                     value={conditionFilter}
                     onChange={(e) => setConditionFilter(e.target.value)}
                     className="flex-1 min-w-[140px] h-10 px-3 py-2 bg-[#1A233A] border border-slate-800 text-sm text-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 appearance-none"
@@ -331,6 +333,7 @@ export default function EquipmentPage() {
                     <option value="broken">Broken</option>
                   </select>
                   <select
+                    aria-label="Filter by status"
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
                     className="flex-1 min-w-[140px] h-10 px-3 py-2 bg-[#1A233A] border border-slate-800 text-sm text-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 appearance-none"

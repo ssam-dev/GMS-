@@ -13,6 +13,7 @@ import TrainerStats from "../components/trainers/TrainerStats";
 import TrainerDetails from "../components/trainers/TrainerDetails";
 
 export default function Trainers() {
+  const isDev = import.meta.env.DEV;
   const [trainers, setTrainers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -251,19 +252,13 @@ export default function Trainers() {
       <TrainerStats isLoading={isLoading} />
 
       {/* Debug Info */}
-      {trainers.length === 0 && !isLoading && (
+      {isDev && trainers.length === 0 && !isLoading && (
         <Card className="bg-[#121A2F] border-slate-800 shadow-none mb-6">
           <CardContent className="p-4">
             <p className="text-sm text-slate-400">
               <strong>Debug:</strong> Loaded {totalItems} trainers from API. 
               Filters: Status={statusFilter}, Specialization={specializationFilter}, Search="{searchTerm}"
             </p>
-            <button 
-              onClick={() => { setStatusFilter("all"); setSpecializationFilter("all"); setSearchTerm(""); }}
-              className="text-xs mt-2 px-3 py-1 bg-blue-600/10 text-blue-500 rounded hover:bg-blue-600/20 transition-colors"
-            >
-              Reset Filters
-            </button>
           </CardContent>
         </Card>
       )}
@@ -314,6 +309,14 @@ export default function Trainers() {
                 <option value="evening">Evening</option>
                 <option value="full">Full Day</option>
               </select>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => { setStatusFilter("all"); setSpecializationFilter("all"); setAvailabilityFilter("all"); setSearchTerm(""); setCurrentPage(1); }}
+                className="h-10 border-slate-700 bg-[#1A233A] text-slate-300 hover:bg-slate-800 hover:text-white"
+              >
+                Reset Filters
+              </Button>
             </div>
           </div>
         </CardContent>

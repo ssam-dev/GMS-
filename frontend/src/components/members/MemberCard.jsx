@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Edit, Trash2, Mail, Phone, Eye } from "lucide-react";
 import { motion } from "framer-motion";
-import { format } from "date-fns";
+import { format, isValid } from "date-fns";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,6 +19,7 @@ const statusColors = {
 };
 
 export default function MemberCard({ member, onEdit, onDelete, onViewDetails }) {
+  const [isActionsOpen, setIsActionsOpen] = useState(false);
   // Safety checks to ensure we have valid data
   if (!member) return null;
 
@@ -42,6 +43,11 @@ export default function MemberCard({ member, onEdit, onDelete, onViewDetails }) 
   const status = member.status ? member.status.toLowerCase() : 'active';
   const membershipType = member.membership_type || 'Basic';
   const membershipEndDate = member.membership_end_date;
+  const parsedMembershipEndDate = membershipEndDate ? new Date(membershipEndDate) : null;
+  const membershipExpiryText = parsedMembershipEndDate && isValid(parsedMembershipEndDate)
+    ? ` (Expires ${format(parsedMembershipEndDate, 'MMM yyyy')})`
+    : '';
+  const hasActions = !!(onViewDetails || onEdit || onDelete);
 
   return (
     <motion.div
@@ -51,29 +57,42 @@ export default function MemberCard({ member, onEdit, onDelete, onViewDetails }) 
       transition={{ duration: 0.2 }}
     >
       <Card className="bg-[#121A2F] border-slate-800 shadow-none overflow-hidden hover:bg-[#1A233A] transition-colors relative group">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="absolute top-2 right-2 text-slate-500 hover:text-white hover:bg-slate-800 h-8 w-8 z-10">
-              <MoreHorizontal className="w-4 h-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-[#1A233A] border-slate-800 text-white">
-            {onViewDetails && (
-              <DropdownMenuItem onClick={() => onViewDetails(member)} className="hover:bg-slate-800 focus:bg-slate-800 cursor-pointer">
-                <Eye className="w-4 h-4 mr-2" />
-                View Details
-              </DropdownMenuItem>
-            )}
-            <DropdownMenuItem onClick={() => onEdit(member)} className="hover:bg-slate-800 focus:bg-slate-800 cursor-pointer">
-              <Edit className="w-4 h-4 mr-2" />
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onDelete(member.id || member._id)} className="text-red-500 hover:bg-slate-800 focus:bg-slate-800 cursor-pointer">
-              <Trash2 className="w-4 h-4 mr-2" />
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {hasActions && (
+          <DropdownMenu open={isActionsOpen} onOpenChange={setIsActionsOpen}>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Open member actions"
+                aria-haspopup="true"
+                aria-expanded={isActionsOpen}
+                className="absolute top-2 right-2 text-slate-500 hover:text-white hover:bg-slate-800 h-8 w-8 z-10"
+              >
+                <MoreHorizontal className="w-4 h-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-[#1A233A] border-slate-800 text-white">
+              {onViewDetails && (
+                <DropdownMenuItem onClick={() => onViewDetails(member)} className="hover:bg-slate-800 focus:bg-slate-800 cursor-pointer">
+                  <Eye className="w-4 h-4 mr-2" />
+                  View Details
+                </DropdownMenuItem>
+              )}
+              {onEdit && (
+                <DropdownMenuItem onClick={() => onEdit(member)} className="hover:bg-slate-800 focus:bg-slate-800 cursor-pointer">
+                  <Edit className="w-4 h-4 mr-2" />
+                  Edit
+                </DropdownMenuItem>
+              )}
+              {onDelete && (
+                <DropdownMenuItem onClick={() => onDelete(member.id || member._id)} className="text-red-500 hover:bg-slate-800 focus:bg-slate-800 cursor-pointer">
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Delete
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
 
         <CardContent className="p-4">
           <div className="flex items-start gap-4">
@@ -115,7 +134,7 @@ export default function MemberCard({ member, onEdit, onDelete, onViewDetails }) 
               <div className="mt-3 inline-block">
                 <div className="px-2 py-0.5 bg-[#1A233A] border border-slate-800 text-xs text-slate-400 rounded-md">
                    {membershipType} 
-                   {membershipEndDate ? ` (Expires ${format(new Date(membershipEndDate), 'MMM yyyy')})` : ''}
+                   {membershipExpiryText}
                 </div>
               </div>
             </div>

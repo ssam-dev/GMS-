@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Member } from "@/entities/Member";
 import { Trainer } from "@/entities/Trainer";
 import { Equipment } from "@/entities/Equipment";
@@ -12,6 +13,7 @@ import StatsCard from "../components/dashboard/StatsCard";
 import MembershipChart from "../components/dashboard/MembershipChart";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [members, setMembers] = useState([]);
   const [trainers, setTrainers] = useState([]);
   const [equipment, setEquipment] = useState([]);
@@ -22,6 +24,7 @@ export default function Dashboard() {
   }, []);
 
   const loadData = async () => {
+    setIsLoading(true);
     try {
       const [membersData, trainersData, equipmentData] = await Promise.all([
         Member.list(),
@@ -60,6 +63,22 @@ export default function Dashboard() {
   const stats = getStats();
   const today = format(new Date(), 'yyyy-MM-dd');
 
+  if (isLoading) {
+    return (
+      <div className="flex flex-col gap-6 text-white pb-20">
+        <div className="animate-pulse space-y-3">
+          <div className="h-7 w-52 bg-[#121A2F] rounded" />
+          <div className="h-4 w-72 bg-[#121A2F] rounded" />
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {Array(4).fill(0).map((_, index) => (
+            <div key={index} className="h-24 bg-[#121A2F] border border-slate-800 rounded-xl animate-pulse" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-6 text-white pb-20">
       {/* Header */}
@@ -82,7 +101,7 @@ export default function Dashboard() {
             <Users className="w-4 h-4 text-blue-500" />
             <span className="text-xs font-semibold tracking-wider text-slate-400 uppercase">Active Members</span>
           </div>
-          <div className="text-2xl font-bold text-white">{stats.activeMembers || 2}</div>
+          <div className="text-2xl font-bold text-white">{stats.activeMembers ?? 0}</div>
         </div>
         
         <div className="bg-[#121A2F] border border-slate-800 rounded-xl p-4 flex flex-col justify-between h-24 relative overflow-hidden">
@@ -90,7 +109,7 @@ export default function Dashboard() {
             <UserCheck className="w-4 h-4 text-blue-500" />
             <span className="text-xs font-semibold tracking-wider text-slate-400 uppercase">Active Trainers</span>
           </div>
-          <div className="text-2xl font-bold text-white">{stats.totalTrainers || 2}</div>
+          <div className="text-2xl font-bold text-white">{stats.totalTrainers ?? 0}</div>
         </div>
 
         <div className="bg-[#121A2F] border border-slate-800 rounded-xl p-4 flex flex-col justify-between h-24 relative overflow-hidden">
@@ -98,7 +117,7 @@ export default function Dashboard() {
             <Dumbbell className="w-4 h-4 text-slate-400" />
             <span className="text-xs font-semibold tracking-wider text-slate-400 uppercase">Total Equipment</span>
           </div>
-          <div className="text-2xl font-bold text-white">{stats.totalEquipment || 8}</div>
+          <div className="text-2xl font-bold text-white">{stats.totalEquipment ?? 0}</div>
         </div>
 
         <div className="bg-[#121A2F] border border-slate-800 rounded-xl p-4 flex flex-col justify-between h-24 relative overflow-hidden">
@@ -106,7 +125,7 @@ export default function Dashboard() {
             <AlertTriangle className="w-4 h-4 text-red-400" />
             <span className="text-xs font-semibold tracking-wider text-slate-400 uppercase">Issues</span>
           </div>
-          <div className="text-2xl font-bold text-white">{stats.equipmentIssues || 1}</div>
+          <div className="text-2xl font-bold text-white">{stats.equipmentIssues ?? 0}</div>
         </div>
       </div>
 
@@ -207,7 +226,11 @@ export default function Dashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 p-4 pt-0">
-              <button className="w-full flex items-center justify-between p-3 bg-[#1A233A] hover:bg-[#1E2943] transition-colors rounded-xl text-left group">
+              <button
+                type="button"
+                onClick={() => navigate('/members')}
+                className="w-full flex items-center justify-between p-3 bg-[#1A233A] hover:bg-[#1E2943] transition-colors rounded-xl text-left group"
+              >
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-blue-500/10 text-blue-400 rounded-lg">
                     <Plus className="w-4 h-4" />
@@ -220,7 +243,11 @@ export default function Dashboard() {
                 <span className="text-slate-600 group-hover:text-blue-400 transition-colors">&rsaquo;</span>
               </button>
               
-              <button className="w-full flex items-center justify-between p-3 bg-[#1A233A] hover:bg-[#1E2943] transition-colors rounded-xl text-left group">
+              <button
+                type="button"
+                onClick={() => navigate('/trainers')}
+                className="w-full flex items-center justify-between p-3 bg-[#1A233A] hover:bg-[#1E2943] transition-colors rounded-xl text-left group"
+              >
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-blue-500/10 text-blue-400 rounded-lg">
                     <UserCheck className="w-4 h-4" />
@@ -233,14 +260,18 @@ export default function Dashboard() {
                 <span className="text-slate-600 group-hover:text-blue-400 transition-colors">&rsaquo;</span>
               </button>
 
-              <button className="w-full flex items-center justify-between p-3 bg-[#1A233A] hover:bg-[#1E2943] transition-colors rounded-xl text-left group">
+              <button
+                type="button"
+                onClick={() => navigate('/equipment')}
+                className="w-full flex items-center justify-between p-3 bg-[#1A233A] hover:bg-[#1E2943] transition-colors rounded-xl text-left group"
+              >
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-red-500/10 text-red-400 rounded-lg">
                     <AlertTriangle className="w-4 h-4" />
                   </div>
                   <div>
                     <h4 className="text-sm font-medium text-slate-200">Maintenance Due</h4>
-                    <p className="text-[11px] text-slate-500">2 machines requiring attention</p>
+                    <p className="text-[11px] text-slate-500">{`${stats.equipmentIssues ?? 0} machines requiring attention`}</p>
                   </div>
                 </div>
                 <span className="text-slate-600 group-hover:text-red-400 transition-colors">&rsaquo;</span>

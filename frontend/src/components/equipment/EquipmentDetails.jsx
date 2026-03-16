@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -49,6 +49,7 @@ const categoryIcons = {
 
 export default function EquipmentDetails({ equipment, onEdit, onDelete, onRefresh, onClose }) {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [imageLoadError, setImageLoadError] = useState(false);
   const isMaintenanceDue = equipment.next_maintenance_date && 
     new Date(equipment.next_maintenance_date) <= new Date();
   
@@ -62,6 +63,10 @@ export default function EquipmentDetails({ equipment, onEdit, onDelete, onRefres
   };
 
   const imageUrl = getImageUrl();
+
+  useEffect(() => {
+    setImageLoadError(false);
+  }, [equipment?.image_path]);
 
   // Build subtitle filtering out "undefined" strings
   const subtitle = [equipment.brand, equipment.model]
@@ -132,15 +137,13 @@ export default function EquipmentDetails({ equipment, onEdit, onDelete, onRefres
               <div className="space-y-6">
                 {/* Equipment Image */}
                 <div className="text-center">
-                  {imageUrl ? (
+                  {imageUrl && !imageLoadError ? (
                     <img
                       src={imageUrl}
                       alt={equipment.name}
                       className="w-full h-56 object-cover rounded-xl border border-slate-800 shadow-md cursor-pointer hover:shadow-lg transition-shadow bg-[#121A2F]"
                       onClick={() => setIsImageModalOpen(true)}
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                      }}
+                      onError={() => setImageLoadError(true)}
                     />
                   ) : (
                     <div className="w-full h-56 bg-[#121A2F] rounded-xl flex items-center justify-center text-6xl border border-slate-800">
